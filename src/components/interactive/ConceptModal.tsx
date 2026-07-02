@@ -1,5 +1,6 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   X, ArrowRight, CheckCircle2, Palette, Globe,
@@ -23,8 +24,12 @@ export interface ConceptData {
 }
 
 // ─── Mini mockup navigateur dans la modal ────────────────────────────────────
-function ConceptBrowser({ concept }: { concept: ConceptData }) {
-  const gradient = `linear-gradient(135deg, ${concept.gradientFrom} 0%, ${concept.gradientTo} 100%)`;
+function ConceptBrowser({ concept, activeHex }: { concept: ConceptData; activeHex?: string }) {
+  const backgroundStyle = activeHex
+    ? { backgroundColor: activeHex }
+    : { background: `linear-gradient(135deg, ${concept.gradientFrom} 0%, ${concept.gradientTo} 100%)` };
+
+  const accentColor = activeHex || concept.gradientFrom;
 
   return (
     <div className="w-full rounded-xl overflow-hidden border border-slate-200 shadow-lg">
@@ -41,7 +46,7 @@ function ConceptBrowser({ concept }: { concept: ConceptData }) {
       </div>
 
       {/* Hero coloré — gradient inline */}
-      <div style={{ background: gradient }} className="p-6 text-white">
+      <div style={backgroundStyle} className="p-6 text-white transition-all duration-300 ease-in-out">
         <div className="text-3xl mb-3">{concept.emoji}</div>
         <div className="w-2/3 h-4 bg-white/40 rounded-lg mb-2" />
         <div className="w-1/2 h-3 bg-white/25 rounded-lg mb-4" />
@@ -56,7 +61,7 @@ function ConceptBrowser({ concept }: { concept: ConceptData }) {
         <div className="grid grid-cols-3 gap-2 mb-4">
           {[Phone, MapPin, MessageSquare].map((Icon, i) => (
             <div key={i} className="bg-slate-50 rounded-xl p-3 flex flex-col items-center gap-1.5 border border-slate-100">
-              <Icon size={14} className="text-slate-400" />
+              <Icon size={14} style={{ color: accentColor }} className="transition-colors duration-300" />
               <div className="w-full h-1.5 bg-slate-200 rounded" />
             </div>
           ))}
@@ -68,7 +73,7 @@ function ConceptBrowser({ concept }: { concept: ConceptData }) {
         {/* Bande avis Google */}
         <div className="mt-4 flex items-center gap-2 bg-slate-50 rounded-xl px-3 py-2 border border-slate-100">
           <div className="flex gap-0.5">
-            {[1,2,3,4,5].map(i => <Star key={i} size={9} className="fill-amber-400 text-amber-400" />)}
+            {[1,2,3,4,5].map(i => <Star key={i} size={9} style={{ fill: accentColor, color: accentColor }} className="transition-colors duration-300" />)}
           </div>
           <div className="w-20 h-1.5 bg-slate-200 rounded" />
         </div>
@@ -85,9 +90,17 @@ interface ConceptModalProps {
 }
 
 export default function ConceptModal({ isOpen, onClose, concept }: ConceptModalProps) {
+  const [activeColor, setActiveColor] = useState<string | null>(null);
+
+  useEffect(() => {
+    setActiveColor(null);
+  }, [concept]);
+
   if (!concept) return null;
 
-  const gradient = `linear-gradient(135deg, ${concept.gradientFrom} 0%, ${concept.gradientTo} 100%)`;
+  const backgroundStyle = activeColor
+    ? { backgroundColor: activeColor }
+    : { background: `linear-gradient(135deg, ${concept.gradientFrom} 0%, ${concept.gradientTo} 100%)` };
 
   return (
     <AnimatePresence>
@@ -110,8 +123,8 @@ export default function ConceptModal({ isOpen, onClose, concept }: ConceptModalP
           >
             {/* En-tête coloré — gradient inline */}
             <div
-              style={{ background: gradient }}
-              className="p-6 flex items-center justify-between flex-shrink-0"
+              style={backgroundStyle}
+              className="p-6 flex items-center justify-between flex-shrink-0 transition-all duration-300 ease-in-out"
             >
               <div className="flex items-center gap-3">
                 <span className="text-4xl">{concept.emoji}</span>
@@ -140,7 +153,7 @@ export default function ConceptModal({ isOpen, onClose, concept }: ConceptModalP
                   <h3 className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-4 flex items-center gap-2">
                     <Globe size={13} /> Aperçu du concept
                   </h3>
-                  <ConceptBrowser concept={concept} />
+                  <ConceptBrowser concept={concept} activeHex={activeColor || undefined} />
 
                   {/* Palette */}
                   <div className="mt-5">
@@ -148,15 +161,26 @@ export default function ConceptModal({ isOpen, onClose, concept }: ConceptModalP
                       <Palette size={13} /> Palette de couleurs
                     </h3>
                     <div className="flex gap-3 flex-wrap">
-                      {concept.palette.map((c) => (
-                        <div key={c.hex} className="flex flex-col items-center gap-1.5">
-                          <div
-                            className="w-10 h-10 rounded-xl shadow-sm border border-slate-200"
-                            style={{ backgroundColor: c.hex }}
-                          />
-                          <span className="text-xs text-slate-500">{c.name}</span>
-                        </div>
-                      ))}
+                      {concept.palette.map((c) => {
+                        const isActive = activeColor === c.hex;
+                        return (
+                          <button
+                            key={c.hex}
+                            onClick={() => setActiveColor(c.hex)}
+                            className="flex flex-col items-center gap-1.5 focus:outline-none group"
+                          >
+                            <div
+                              className={`w-10 h-10 rounded-xl shadow-sm border-2 transition-all duration-200 ${
+                                isActive ? 'border-slate-800 scale-110' : 'border-slate-200 group-hover:border-slate-400 group-hover:scale-105'
+                              }`}
+                              style={{ backgroundColor: c.hex }}
+                            />
+                            <span className={`text-xs transition-colors duration-200 ${isActive ? 'text-slate-900 font-bold' : 'text-slate-500 group-hover:text-slate-700'}`}>
+                              {c.name}
+                            </span>
+                          </button>
+                        );
+                      })}
                     </div>
                   </div>
                 </div>
