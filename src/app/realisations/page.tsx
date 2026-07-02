@@ -7,15 +7,22 @@ import ConceptModal, { type ConceptData } from '@/components/interactive/Concept
 import CtaFinal from '@/components/sections/CtaFinal';
 import Button from '@/components/ui/Button';
 
-const concepts: ConceptData[] = [
+// ─── Toutes les couleurs sont déclarées ici en VALEURS STATIQUES (hex) ────────
+// Tailwind ne peut PAS générer de classes dynamiques depuis des props.
+// → Les gradients sont appliqués via style={{ background: ... }}
+// → Les couleurs de texte sont dans une map statique
+
+export const concepts: ConceptData[] = [
   {
     id: 'restaurant',
     emoji: '🍽️',
     title: 'Bistrot de Pays',
     sector: 'Restaurant & Brasserie',
-    colorClass: 'text-amber-700',
-    bgClass: 'bg-gradient-to-br from-amber-700 to-orange-800',
-    description: 'Design chaud et appétissant, centré sur la photographie culinaire et l\'ambiance locale. Typographie classique et tons terreux pour inspirer confiance et donner envie.',
+    sectorColor: '#b45309',          // amber-700
+    gradientFrom: '#92400e',         // amber-800
+    gradientTo: '#c2410c',           // orange-700
+    description:
+      'Design chaud et appétissant, centré sur la photographie culinaire et l\'ambiance locale. Typographie classique et tons terreux pour inspirer confiance et donner envie.',
     goals: [
       'Convertir les visiteurs en réservations directes',
       'Présenter le menu et les spécialités du moment',
@@ -44,9 +51,11 @@ const concepts: ConceptData[] = [
     emoji: '🔧',
     title: 'Mécanique Express',
     sector: 'Garage & Auto',
-    colorClass: 'text-slate-700',
-    bgClass: 'bg-gradient-to-br from-slate-700 to-slate-900',
-    description: 'Design robuste et rassurant. Palette contrastée (anthracite/blanc/bleu) pour évoquer le professionnalisme mécanique. Centré sur la rapidité d\'action.',
+    sectorColor: '#475569',          // slate-600
+    gradientFrom: '#334155',         // slate-700
+    gradientTo: '#0f172a',           // slate-900
+    description:
+      'Design robuste et rassurant. Palette contrastée (anthracite/blanc/bleu) pour évoquer le professionnalisme mécanique. Centré sur la rapidité d\'action.',
     goals: [
       'Générer des appels et demandes de devis',
       'Rassurer sur les compétences et certifications',
@@ -54,7 +63,7 @@ const concepts: ConceptData[] = [
       'Faciliter la prise de contact d\'urgence',
     ],
     features: [
-      'Liste des prestations clair',
+      'Liste des prestations claire',
       'Formulaire devis rapide',
       'Bouton appel d\'urgence',
       'Zone d\'intervention',
@@ -74,9 +83,11 @@ const concepts: ConceptData[] = [
     emoji: '✂️',
     title: 'L\'Atelier Beauté',
     sector: 'Salon de Coiffure',
-    colorClass: 'text-pink-700',
-    bgClass: 'bg-gradient-to-br from-rose-400 to-pink-600',
-    description: 'Design épuré et élégant, axé sur le bien-être. Palette douce avec de nombreux espaces blancs et une typographie fine pour évoquer le soin et la détente.',
+    sectorColor: '#e11d48',          // rose-600
+    gradientFrom: '#fb7185',         // rose-400
+    gradientTo: '#db2777',           // pink-600
+    description:
+      'Design épuré et élégant, axé sur le bien-être. Palette douce avec de nombreux espaces blancs et une typographie fine pour évoquer le soin et la détente.',
     goals: [
       'Simplifier la prise de rendez-vous',
       'Présenter les prestations et les tarifs clairement',
@@ -104,14 +115,16 @@ const concepts: ConceptData[] = [
     emoji: '🏗️',
     title: 'Rénovation Pro',
     sector: 'Artisan & BTP',
-    colorClass: 'text-orange-700',
-    bgClass: 'bg-gradient-to-br from-orange-600 to-amber-700',
-    description: 'Design sérieux, structuré et fiable. Mise en avant des réalisations concrètes, des certifications et de la zone d\'intervention pour maximiser la confiance.',
+    sectorColor: '#c2410c',          // orange-700
+    gradientFrom: '#ea580c',         // orange-600
+    gradientTo: '#b45309',           // amber-700
+    description:
+      'Design sérieux, structuré et fiable. Mise en avant des réalisations concrètes, des certifications et de la zone d\'intervention pour maximiser la confiance.',
     goals: [
       'Générer des demandes de devis qualifiées',
       'Prouver l\'expertise par les réalisations photos',
       'Clarifier la zone d\'intervention géographique',
-      'Afficher les certifications (RGE, Qualibat...)',
+      'Afficher les certifications (RGE, Qualibat…)',
     ],
     features: [
       'Portfolio de chantiers (avant/après)',
@@ -134,9 +147,11 @@ const concepts: ConceptData[] = [
     emoji: '🍺',
     title: 'Le Nocturne',
     sector: 'Bar & Soirées',
-    colorClass: 'text-purple-700',
-    bgClass: 'bg-gradient-to-br from-violet-700 to-purple-900',
-    description: 'Design immersif et festif. Fond sombre maîtrisé, accents vibrants et animations pour retranscrire l\'ambiance et attirer pour les soirées événements.',
+    sectorColor: '#7c3aed',          // violet-700
+    gradientFrom: '#6d28d9',         // violet-700
+    gradientTo: '#4c1d95',           // violet-900
+    description:
+      'Design immersif et festif. Fond sombre maîtrisé, accents vibrants et animations pour retranscrire l\'ambiance et attirer pour les soirées événements.',
     goals: [
       'Communiquer sur les événements et soirées',
       'Partager l\'ambiance visuellement',
@@ -163,9 +178,11 @@ const concepts: ConceptData[] = [
     emoji: '⛺',
     title: 'Les Pins Verts',
     sector: 'Camping & Plein Air',
-    colorClass: 'text-emerald-700',
-    bgClass: 'bg-gradient-to-br from-emerald-600 to-teal-700',
-    description: 'Design naturel, familial et accueillant. Couleurs vertes et tons bois, large espace pour la photographie de paysage et les activités.',
+    sectorColor: '#059669',          // emerald-600
+    gradientFrom: '#059669',         // emerald-600
+    gradientTo: '#0d9488',           // teal-600
+    description:
+      'Design naturel, familial et accueillant. Couleurs vertes et tons bois, large espace pour la photographie de paysage et les activités.',
     goals: [
       'Augmenter les réservations directes',
       'Présenter le domaine et ses équipements',
@@ -190,7 +207,7 @@ const concepts: ConceptData[] = [
   },
 ];
 
-// Card hover effect
+// ─── Carte concept ────────────────────────────────────────────────────────────
 function ConceptCard({
   concept,
   onClick,
@@ -200,6 +217,8 @@ function ConceptCard({
 }) {
   const [hovered, setHovered] = useState(false);
 
+  const gradient = `linear-gradient(135deg, ${concept.gradientFrom} 0%, ${concept.gradientTo} 100%)`;
+
   return (
     <button
       onClick={onClick}
@@ -207,13 +226,20 @@ function ConceptCard({
       onMouseLeave={() => setHovered(false)}
       className="w-full text-left group rounded-3xl overflow-hidden bg-white border border-slate-200 hover:border-slate-300 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 flex flex-col"
     >
-      {/* Visual area */}
-      <div className="relative aspect-[4/3] overflow-hidden">
-        <div className={`absolute inset-0 ${concept.bgClass} transition-transform duration-500 ${hovered ? 'scale-105' : 'scale-100'}`} />
+      {/* Zone colorée */}
+      <div className="relative aspect-video overflow-hidden">
+        {/* Gradient de fond — inline style pour garantir le rendu */}
+        <div
+          className="absolute inset-0 transition-transform duration-500"
+          style={{
+            background: gradient,
+            transform: hovered ? 'scale(1.05)' : 'scale(1)',
+          }}
+        />
 
-        {/* Emoji & floating elements */}
-        <div className="absolute inset-0 flex items-center justify-center">
-          <div className="text-7xl filter drop-shadow-lg">{concept.emoji}</div>
+        {/* Emoji centré */}
+        <div className="absolute inset-0 flex items-center justify-center z-10">
+          <span className="text-7xl filter drop-shadow-lg select-none">{concept.emoji}</span>
         </div>
 
         {/* Hover overlay */}
@@ -223,7 +249,8 @@ function ConceptCard({
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="absolute inset-0 bg-slate-900/75 backdrop-blur-[2px] flex items-center justify-center"
+              className="absolute inset-0 z-20 flex items-center justify-center"
+              style={{ background: 'rgba(15,23,42,0.72)' }}
             >
               <motion.div
                 initial={{ y: 10, opacity: 0 }}
@@ -241,18 +268,22 @@ function ConceptCard({
         </AnimatePresence>
       </div>
 
-      {/* Content */}
+      {/* Contenu texte */}
       <div className="p-5 flex-grow">
-        <div className={`text-xs font-bold uppercase tracking-wider mb-1.5 ${concept.colorClass}`}>
+        <div
+          className="text-xs font-bold uppercase tracking-wider mb-1.5"
+          style={{ color: concept.sectorColor }}
+        >
           {concept.sector}
         </div>
         <h3 className="text-lg font-bold text-slate-900 mb-1.5">{concept.title}</h3>
-        <p className="text-sm text-slate-600 line-clamp-2">{concept.description}</p>
+        <p className="text-sm text-slate-500 line-clamp-2">{concept.description}</p>
       </div>
     </button>
   );
 }
 
+// ─── Page principale ──────────────────────────────────────────────────────────
 export default function RealisationsPage() {
   const [selectedConcept, setSelectedConcept] = useState<ConceptData | null>(null);
 
@@ -272,13 +303,15 @@ export default function RealisationsPage() {
           <div className="inline-flex items-start gap-3 bg-blue-50 border border-blue-100 rounded-2xl p-4 text-left max-w-2xl">
             <AlertCircle className="text-blue-500 shrink-0 mt-0.5" size={18} />
             <p className="text-sm text-blue-900">
-              <strong>Transparence :</strong> Ces exemples sont des <strong>concepts visuels imaginés</strong> pour présenter différentes directions possibles. Ils ne représentent pas encore des clients réels. Nos premières réalisations clients seront ajoutées prochainement.
+              <strong>Transparence :</strong> Ces exemples sont des{' '}
+              <strong>concepts visuels imaginés</strong> pour présenter différentes directions possibles.
+              Ils ne représentent pas encore des clients réels. Nos premières réalisations clients seront ajoutées prochainement.
             </p>
           </div>
         </div>
       </div>
 
-      {/* Grid */}
+      {/* Grille des concepts */}
       <section className="py-20 bg-white">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl">
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -291,7 +324,7 @@ export default function RealisationsPage() {
             ))}
           </div>
 
-          {/* CTA */}
+          {/* CTA bas de page */}
           <div className="text-center mt-16 bg-slate-50 rounded-3xl p-10 border border-slate-200">
             <h2 className="text-2xl font-bold text-slate-900 mb-3 font-heading">
               Votre activité n&apos;est pas listée ?
@@ -299,9 +332,7 @@ export default function RealisationsPage() {
             <p className="text-slate-600 mb-6 max-w-lg mx-auto">
               Nous créons des sites pour tous types de commerces locaux. Contactez-nous pour discuter de votre projet spécifique.
             </p>
-            <Button href="/contact">
-              Discuter de mon projet
-            </Button>
+            <Button href="/contact">Discuter de mon projet</Button>
           </div>
         </div>
       </section>
