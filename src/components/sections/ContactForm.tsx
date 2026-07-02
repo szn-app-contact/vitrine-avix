@@ -1,199 +1,262 @@
 'use client';
 
 import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Send, Loader2, CheckCircle2 } from 'lucide-react';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
+import { Send, Loader2, CheckCircle2, AlertCircle } from 'lucide-react';
 import Button from '@/components/ui/Button';
 
+const schema = z.object({
+  name: z.string().min(2, 'Le nom doit contenir au moins 2 caractères'),
+  company: z.string().optional(),
+  city: z.string().optional(),
+  email: z.string().email('Adresse email invalide'),
+  phone: z.string().optional(),
+  projectType: z.string().min(1, 'Veuillez sélectionner un type de projet'),
+  budget: z.string().optional(),
+  message: z.string().min(10, 'Le message doit contenir au moins 10 caractères'),
+});
+
+type FormData = z.infer<typeof schema>;
+
+const projectTypes = [
+  'Pack Avis Express (149 €)',
+  'Pack Visibilité Locale (790 €)',
+  'Création de site vitrine',
+  'Refonte de site existant',
+  'Optimisation fiche Google',
+  'Supports NFC avis Google',
+  'Autre demande / Conseil',
+];
+
+const budgets = [
+  'Moins de 200 €',
+  '200 € – 500 €',
+  '500 € – 1 000 €',
+  '1 000 € – 2 000 €',
+  'Plus de 2 000 €',
+  'Je ne sais pas encore',
+];
+
 export default function ContactForm() {
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isSuccess, setIsSuccess] = useState(false);
-  const [formData, setFormData] = useState({
-    name: '',
-    company: '',
-    city: '',
-    email: '',
-    phone: '',
-    projectType: 'website',
-    budget: '',
-    message: ''
+  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
+  const [errorMessage, setErrorMessage] = useState('');
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<FormData>({
+    resolver: zodResolver(schema),
+    defaultValues: { projectType: '' },
   });
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    
-    // Simulate API call (e.g., Resend, Supabase, Webhook)
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    
-    setIsSubmitting(false);
-    setIsSuccess(true);
+  const onSubmit = async (data: FormData) => {
+    setStatus('loading');
+    setErrorMessage('');
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+      const json = await res.json();
+      if (res.ok) {
+        setStatus('success');
+        reset();
+      } else {
+        setStatus('error');
+        setErrorMessage(json.error || 'Une erreur est survenue.');
+      }
+    } catch {
+      setStatus('error');
+      setErrorMessage('Impossible d\'envoyer le message. Vérifiez votre connexion.');
+    }
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    setFormData(prev => ({
-      ...prev,
-      [e.target.name]: e.target.value
-    }));
-  };
+  const inputClass = (hasError: boolean) =>
+    `w-full bg-white border rounded-xl px-4 py-3 text-slate-800 placeholder:text-slate-400 text-sm focus:outline-none focus:ring-2 transition-all ${
+      hasError
+        ? 'border-red-400 focus:ring-red-300 focus:border-red-400'
+        : 'border-slate-200 focus:ring-blue-300 focus:border-blue-500'
+    }`;
+
+  if (status === 'success') {
+    return (
+      <div className="bg-emerald-50 border border-emerald-200 rounded-3xl p-10 text-center">
+        <div className="w-20 h-20 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-6">
+          <CheckCircle2 className="text-emerald-500" size={40} />
+        </div>
+        <h3 className="text-2xl font-bold text-slate-900 mb-3">Message envoyé !</h3>
+        <p className="text-slate-600 mb-2">
+          Merci pour votre demande. Nous revenons vers vous sous <strong>24 à 48h</strong>.
+        </p>
+        <p className="text-sm text-slate-500 mb-8">
+          Un email de confirmation vous a été envoyé à votre adresse.
+        </p>
+        <Button variant="outline" onClick={() => setStatus('idle')}>
+          Envoyer un autre message
+        </Button>
+      </div>
+    );
+  }
 
   return (
-    <div className="relative">
-      <AnimatePresence mode="wait">
-        {!isSuccess ? (
-          <motion.form
-            key="form"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onSubmit={handleSubmit}
-            className="space-y-6"
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-5" noValidate>
+      {/* Erreur globale */}
+      {status === 'error' && (
+        <div className="flex items-start gap-3 bg-red-50 border border-red-200 rounded-xl p-4">
+          <AlertCircle className="text-red-500 shrink-0 mt-0.5" size={18} />
+          <p className="text-sm text-red-700">{errorMessage}</p>
+        </div>
+      )}
+
+      <div className="grid sm:grid-cols-2 gap-5">
+        <div>
+          <label htmlFor="name" className="block text-sm font-medium text-slate-700 mb-1.5">
+            Nom & Prénom <span className="text-red-500">*</span>
+          </label>
+          <input
+            id="name"
+            type="text"
+            {...register('name')}
+            className={inputClass(!!errors.name)}
+            placeholder="Jean Dupont"
+          />
+          {errors.name && <p className="mt-1 text-xs text-red-500">{errors.name.message}</p>}
+        </div>
+
+        <div>
+          <label htmlFor="company" className="block text-sm font-medium text-slate-700 mb-1.5">
+            Nom de l&apos;établissement
+          </label>
+          <input
+            id="company"
+            type="text"
+            {...register('company')}
+            className={inputClass(false)}
+            placeholder="Restaurant Le Central"
+          />
+        </div>
+      </div>
+
+      <div className="grid sm:grid-cols-2 gap-5">
+        <div>
+          <label htmlFor="email" className="block text-sm font-medium text-slate-700 mb-1.5">
+            Email <span className="text-red-500">*</span>
+          </label>
+          <input
+            id="email"
+            type="email"
+            {...register('email')}
+            className={inputClass(!!errors.email)}
+            placeholder="jean@monrestaurant.com"
+          />
+          {errors.email && <p className="mt-1 text-xs text-red-500">{errors.email.message}</p>}
+        </div>
+
+        <div>
+          <label htmlFor="phone" className="block text-sm font-medium text-slate-700 mb-1.5">
+            Téléphone
+          </label>
+          <input
+            id="phone"
+            type="tel"
+            {...register('phone')}
+            className={inputClass(false)}
+            placeholder="06 12 34 56 78"
+          />
+        </div>
+      </div>
+
+      <div className="grid sm:grid-cols-2 gap-5">
+        <div>
+          <label htmlFor="city" className="block text-sm font-medium text-slate-700 mb-1.5">
+            Ville / Commune
+          </label>
+          <input
+            id="city"
+            type="text"
+            {...register('city')}
+            className={inputClass(false)}
+            placeholder="Challans, La Roche-sur-Yon..."
+          />
+        </div>
+
+        <div>
+          <label htmlFor="projectType" className="block text-sm font-medium text-slate-700 mb-1.5">
+            Type de projet <span className="text-red-500">*</span>
+          </label>
+          <select
+            id="projectType"
+            {...register('projectType')}
+            className={inputClass(!!errors.projectType) + ' appearance-none'}
           >
-            <div className="grid sm:grid-cols-2 gap-6">
-              <div className="space-y-2">
-                <label htmlFor="name" className="text-sm font-medium text-slate-700">Nom & Prénom <span className="text-red-500">*</span></label>
-                <input
-                  type="text"
-                  id="name"
-                  name="name"
-                  required
-                  value={formData.name}
-                  onChange={handleChange}
-                  className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-slate-800 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all"
-                  placeholder="Jean Dupont"
-                />
-              </div>
-              
-              <div className="space-y-2">
-                <label htmlFor="company" className="text-sm font-medium text-slate-700">Nom de l'entreprise</label>
-                <input
-                  type="text"
-                  id="company"
-                  name="company"
-                  value={formData.company}
-                  onChange={handleChange}
-                  className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-slate-800 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all"
-                  placeholder="Ex: Restaurant Le Central"
-                />
-              </div>
-            </div>
+            <option value="">Sélectionner...</option>
+            {projectTypes.map((type) => (
+              <option key={type} value={type}>{type}</option>
+            ))}
+          </select>
+          {errors.projectType && (
+            <p className="mt-1 text-xs text-red-500">{errors.projectType.message}</p>
+          )}
+        </div>
+      </div>
 
-            <div className="grid sm:grid-cols-2 gap-6">
-              <div className="space-y-2">
-                <label htmlFor="email" className="text-sm font-medium text-slate-700">Email <span className="text-red-500">*</span></label>
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  required
-                  value={formData.email}
-                  onChange={handleChange}
-                  className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-slate-800 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all"
-                  placeholder="jean@exemple.com"
-                />
-              </div>
-              
-              <div className="space-y-2">
-                <label htmlFor="phone" className="text-sm font-medium text-slate-700">Téléphone</label>
-                <input
-                  type="tel"
-                  id="phone"
-                  name="phone"
-                  value={formData.phone}
-                  onChange={handleChange}
-                  className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-slate-800 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all"
-                  placeholder="06 12 34 56 78"
-                />
-              </div>
-            </div>
+      <div>
+        <label htmlFor="budget" className="block text-sm font-medium text-slate-700 mb-1.5">
+          Budget approximatif
+        </label>
+        <select
+          id="budget"
+          {...register('budget')}
+          className={inputClass(false) + ' appearance-none'}
+        >
+          <option value="">Sélectionner (optionnel)...</option>
+          {budgets.map((b) => (
+            <option key={b} value={b}>{b}</option>
+          ))}
+        </select>
+      </div>
 
-            <div className="grid sm:grid-cols-2 gap-6">
-               <div className="space-y-2">
-                <label htmlFor="city" className="text-sm font-medium text-slate-700">Ville / Secteur (en Vendée)</label>
-                <input
-                  type="text"
-                  id="city"
-                  name="city"
-                  value={formData.city}
-                  onChange={handleChange}
-                  className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-slate-800 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all"
-                  placeholder="Ex: Challans"
-                />
-              </div>
+      <div>
+        <label htmlFor="message" className="block text-sm font-medium text-slate-700 mb-1.5">
+          Votre message <span className="text-red-500">*</span>
+        </label>
+        <textarea
+          id="message"
+          rows={5}
+          {...register('message')}
+          className={inputClass(!!errors.message) + ' resize-none'}
+          placeholder="Décrivez brièvement votre activité et ce que vous souhaitez améliorer..."
+        />
+        {errors.message && <p className="mt-1 text-xs text-red-500">{errors.message.message}</p>}
+      </div>
 
-              <div className="space-y-2">
-                <label htmlFor="projectType" className="text-sm font-medium text-slate-700">Type de besoin <span className="text-red-500">*</span></label>
-                <select
-                  id="projectType"
-                  name="projectType"
-                  required
-                  value={formData.projectType}
-                  onChange={handleChange}
-                  className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all appearance-none"
-                >
-                  <option value="website">Création de site vitrine</option>
-                  <option value="redesign">Refonte de site existant</option>
-                  <option value="google">Optimisation Fiche Google & NFC</option>
-                  <option value="other">Autre / Conseil</option>
-                </select>
-              </div>
-            </div>
-
-            <div className="space-y-2">
-              <label htmlFor="message" className="text-sm font-medium text-slate-700">Votre message <span className="text-red-500">*</span></label>
-              <textarea
-                id="message"
-                name="message"
-                required
-                rows={4}
-                value={formData.message}
-                onChange={handleChange}
-                className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-slate-800 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all resize-none"
-                placeholder="Décrivez brièvement votre activité et votre besoin..."
-              />
-            </div>
-
-            <button
-              type="submit"
-              disabled={isSubmitting}
-              className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium px-8 py-4 rounded-xl flex items-center justify-center gap-2 transition-all disabled:opacity-70 disabled:cursor-not-allowed shadow-lg shadow-blue-600/20"
-            >
-              {isSubmitting ? (
-                <>
-                  <Loader2 size={20} className="animate-spin" />
-                  Envoi en cours...
-                </>
-              ) : (
-                <>
-                  Envoyer ma demande
-                  <Send size={18} />
-                </>
-              )}
-            </button>
-            <p className="text-xs text-center text-slate-500">
-              Vos données resteront confidentielles. Pas de spam, promis.
-            </p>
-          </motion.form>
-        ) : (
-          <motion.div
-            key="success"
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            className="bg-emerald-50 border border-emerald-100 rounded-3xl p-8 md:p-12 text-center"
-          >
-            <div className="w-20 h-20 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-6">
-              <CheckCircle2 className="text-emerald-500" size={40} />
-            </div>
-            <h3 className="text-2xl font-bold font-heading text-navy-950 mb-4">Message envoyé avec succès !</h3>
-            <p className="text-slate-600 mb-8 max-w-md mx-auto">
-              Merci pour votre confiance. Nous avons bien reçu votre demande et nous vous recontacterons très rapidement pour discuter de votre projet.
-            </p>
-            <Button onClick={() => setIsSuccess(false)} variant="outline" className="bg-white hover:bg-slate-50 border-slate-200 text-slate-700">
-              Envoyer un autre message
-            </Button>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </div>
+      <div className="pt-2">
+        <Button
+          type="submit"
+          disabled={status === 'loading'}
+          className="w-full justify-center py-4 text-base"
+        >
+          {status === 'loading' ? (
+            <>
+              <Loader2 size={20} className="animate-spin" />
+              Envoi en cours...
+            </>
+          ) : (
+            <>
+              Envoyer ma demande
+              <Send size={18} />
+            </>
+          )}
+        </Button>
+        <p className="text-xs text-center text-slate-500 mt-3">
+          Vos données sont confidentielles et ne seront jamais partagées.
+        </p>
+      </div>
+    </form>
   );
 }

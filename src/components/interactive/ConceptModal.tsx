@@ -1,17 +1,24 @@
 'use client';
 
+import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, ExternalLink, Check, Palette } from 'lucide-react';
+import {
+  X, ArrowRight, CheckCircle2, Palette, Globe,
+  Phone, MapPin, MessageSquare, Star
+} from 'lucide-react';
 import Button from '@/components/ui/Button';
 
-interface ConceptData {
+export interface ConceptData {
   id: string;
+  emoji: string;
   title: string;
   sector: string;
+  colorClass: string;
+  bgClass: string;
   description: string;
-  color: string;
-  features: string[];
   goals: string[];
+  features: string[];
+  palette: { name: string; hex: string }[];
 }
 
 interface ConceptModalProps {
@@ -20,95 +27,190 @@ interface ConceptModalProps {
   concept: ConceptData | null;
 }
 
+// Mock browser UI for the concept
+function ConceptBrowser({ concept }: { concept: ConceptData }) {
+  return (
+    <div className="w-full rounded-xl overflow-hidden border border-slate-200 shadow-lg">
+      {/* Browser bar */}
+      <div className="bg-slate-100 px-4 py-2.5 flex items-center gap-3">
+        <div className="flex gap-1.5">
+          <div className="w-2.5 h-2.5 rounded-full bg-red-400" />
+          <div className="w-2.5 h-2.5 rounded-full bg-amber-400" />
+          <div className="w-2.5 h-2.5 rounded-full bg-emerald-400" />
+        </div>
+        <div className="flex-1 bg-white rounded-full h-5 text-xs text-slate-400 flex items-center px-3">
+          votre-{concept.id}.fr (concept)
+        </div>
+      </div>
+      {/* Hero */}
+      <div className={`${concept.bgClass} p-6`}>
+        <div className="text-4xl mb-3">{concept.emoji}</div>
+        <div className="w-2/3 h-5 bg-white/40 rounded-lg mb-2" />
+        <div className="w-1/2 h-3 bg-white/25 rounded mb-4" />
+        <div className="flex gap-2">
+          <div className="h-7 w-24 bg-white rounded-lg" />
+          <div className="h-7 w-20 bg-white/20 border border-white/40 rounded-lg" />
+        </div>
+      </div>
+      {/* Content area */}
+      <div className="bg-white p-4">
+        <div className="grid grid-cols-3 gap-2 mb-4">
+          {[Phone, MapPin, MessageSquare].map((Icon, i) => (
+            <div key={i} className="bg-slate-50 rounded-xl p-3 flex flex-col items-center gap-1.5 border border-slate-100">
+              <Icon size={16} className="text-slate-400" />
+              <div className="w-full h-1.5 bg-slate-200 rounded" />
+            </div>
+          ))}
+        </div>
+        <div className="space-y-2">
+          <div className="w-full h-2 bg-slate-100 rounded" />
+          <div className="w-3/4 h-2 bg-slate-100 rounded" />
+        </div>
+        {/* Google avis strip */}
+        <div className="mt-4 flex items-center gap-2 bg-slate-50 rounded-xl px-3 py-2 border border-slate-100">
+          <div className="flex gap-0.5">
+            {[1,2,3,4,5].map(i => <Star key={i} size={10} className="fill-amber-400 text-amber-400" />)}
+          </div>
+          <div className="w-24 h-2 bg-slate-200 rounded" />
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function ConceptModal({ isOpen, onClose, concept }: ConceptModalProps) {
-  if (!isOpen || !concept) return null;
+  if (!concept) return null;
 
   return (
     <AnimatePresence>
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        onClick={onClose}
-        className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-navy-950/40 backdrop-blur-sm"
-      >
+      {isOpen && (
         <motion.div
-          initial={{ opacity: 0, scale: 0.95, y: 20 }}
-          animate={{ opacity: 1, scale: 1, y: 0 }}
-          exit={{ opacity: 0, scale: 0.95, y: 20 }}
-          onClick={(e) => e.stopPropagation()}
-          className="bg-white w-full max-w-4xl max-h-[90vh] rounded-3xl shadow-2xl overflow-hidden flex flex-col md:flex-row relative"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          onClick={onClose}
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm"
         >
-          {/* Close Button */}
-          <button 
-            onClick={onClose}
-            className="absolute top-4 right-4 z-10 w-10 h-10 bg-white/80 backdrop-blur-md rounded-full flex items-center justify-center text-slate-500 hover:text-navy-950 hover:bg-slate-100 transition-colors shadow-sm"
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.95, y: 20 }}
+            transition={{ duration: 0.25 }}
+            onClick={(e) => e.stopPropagation()}
+            className="bg-white w-full max-w-4xl max-h-[90vh] rounded-3xl shadow-2xl overflow-hidden flex flex-col"
           >
-            <X size={20} />
-          </button>
-
-          {/* Left Visual Area */}
-          <div className={`w-full md:w-2/5 bg-${concept.color}-50 p-8 flex flex-col relative overflow-hidden`}>
-            <div className={`absolute -top-20 -left-20 w-64 h-64 bg-${concept.color}-200/50 rounded-full blur-[60px]`} />
-            
-            <div className="relative z-10 mt-auto">
-               <div className={`inline-block px-3 py-1 bg-white border border-${concept.color}-200 text-${concept.color}-700 text-xs font-bold rounded-full mb-4 shadow-sm`}>
-                 CONCEPT
-               </div>
-               <h2 className="text-3xl font-bold font-heading text-navy-950 mb-2">{concept.title}</h2>
-               <p className="text-slate-600 mb-8">{concept.sector}</p>
-               
-               <div className="bg-white/80 backdrop-blur-md rounded-2xl p-6 border border-white shadow-sm">
-                 <h4 className="text-sm font-bold text-navy-950 mb-3 flex items-center gap-2">
-                   <Palette size={16} className={`text-${concept.color}-500`} />
-                   Ambiance Graphique
-                 </h4>
-                 <p className="text-sm text-slate-600">{concept.description}</p>
-               </div>
-            </div>
-          </div>
-
-          {/* Right Content Area */}
-          <div className="w-full md:w-3/5 p-8 md:p-10 overflow-y-auto">
-            
-            <div className="mb-8">
-              <h3 className="text-lg font-bold text-navy-950 mb-4">Objectifs du site</h3>
-              <ul className="space-y-3">
-                {concept.goals.map((goal, i) => (
-                  <li key={i} className="flex items-start gap-3">
-                    <div className={`mt-1 w-5 h-5 rounded-full bg-${concept.color}-100 flex items-center justify-center shrink-0`}>
-                      <div className={`w-2 h-2 rounded-full bg-${concept.color}-500`} />
-                    </div>
-                    <span className="text-slate-700">{goal}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            <div className="mb-10">
-              <h3 className="text-lg font-bold text-navy-950 mb-4">Fonctionnalités incluses</h3>
-              <div className="grid sm:grid-cols-2 gap-3">
-                {concept.features.map((feature, i) => (
-                  <div key={i} className="flex items-center gap-2 bg-slate-50 p-3 rounded-xl border border-slate-100">
-                    <Check size={16} className="text-emerald-500 shrink-0" />
-                    <span className="text-sm text-slate-700 font-medium">{feature}</span>
+            {/* Header */}
+            <div className={`${concept.bgClass} p-6 flex items-center justify-between`}>
+              <div className="flex items-center gap-3">
+                <div className="text-4xl">{concept.emoji}</div>
+                <div>
+                  <div className="inline-flex items-center gap-1.5 text-xs font-bold text-white/80 bg-white/20 px-2.5 py-1 rounded-full mb-1">
+                    CONCEPT VISUEL
                   </div>
-                ))}
+                  <h2 className="text-xl font-bold text-white">{concept.title}</h2>
+                  <p className="text-white/70 text-sm">{concept.sector}</p>
+                </div>
+              </div>
+              <button
+                onClick={onClose}
+                className="w-10 h-10 bg-white/20 hover:bg-white/30 rounded-full flex items-center justify-center text-white transition-colors"
+                aria-label="Fermer"
+              >
+                <X size={20} />
+              </button>
+            </div>
+
+            {/* Body */}
+            <div className="overflow-y-auto flex-1">
+              <div className="grid md:grid-cols-2 gap-0">
+                {/* Left: Mockup */}
+                <div className="p-6 border-b md:border-b-0 md:border-r border-slate-100">
+                  <h3 className="text-sm font-semibold text-slate-500 uppercase tracking-wider mb-4 flex items-center gap-2">
+                    <Globe size={14} />
+                    Aperçu du concept
+                  </h3>
+                  <ConceptBrowser concept={concept} />
+
+                  {/* Palette */}
+                  <div className="mt-5">
+                    <h3 className="text-sm font-semibold text-slate-500 uppercase tracking-wider mb-3 flex items-center gap-2">
+                      <Palette size={14} />
+                      Palette de couleurs
+                    </h3>
+                    <div className="flex gap-2">
+                      {concept.palette.map((c) => (
+                        <div key={c.hex} className="flex flex-col items-center gap-1.5">
+                          <div
+                            className="w-10 h-10 rounded-xl shadow-sm border border-slate-200"
+                            style={{ backgroundColor: c.hex }}
+                          />
+                          <span className="text-xs text-slate-500">{c.name}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Right: Details */}
+                <div className="p-6 space-y-6">
+                  <div>
+                    <h3 className="text-sm font-semibold text-slate-500 uppercase tracking-wider mb-3">
+                      Description
+                    </h3>
+                    <p className="text-slate-700 text-sm leading-relaxed">{concept.description}</p>
+                  </div>
+
+                  <div>
+                    <h3 className="text-sm font-semibold text-slate-500 uppercase tracking-wider mb-3">
+                      Objectifs du site
+                    </h3>
+                    <ul className="space-y-2">
+                      {concept.goals.map((g) => (
+                        <li key={g} className="flex items-start gap-2.5 text-sm text-slate-700">
+                          <div className="w-4 h-4 bg-blue-50 rounded-full flex items-center justify-center shrink-0 mt-0.5">
+                            <div className="w-1.5 h-1.5 bg-blue-500 rounded-full" />
+                          </div>
+                          {g}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  <div>
+                    <h3 className="text-sm font-semibold text-slate-500 uppercase tracking-wider mb-3">
+                      Fonctionnalités recommandées
+                    </h3>
+                    <div className="grid grid-cols-1 gap-2">
+                      {concept.features.map((f) => (
+                        <div key={f} className="flex items-center gap-2.5 bg-slate-50 rounded-xl px-3 py-2 border border-slate-100">
+                          <CheckCircle2 className="text-emerald-500 shrink-0" size={14} />
+                          <span className="text-sm text-slate-700">{f}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
 
-            <div className="pt-6 border-t border-slate-100 flex flex-col sm:flex-row gap-4 items-center justify-between">
-              <p className="text-xs text-slate-400 max-w-xs">
-                Ceci est une direction visuelle. Votre site final sera 100% personnalisé à votre image.
+            {/* Footer */}
+            <div className="border-t border-slate-100 p-5 flex flex-col sm:flex-row items-center justify-between gap-4 bg-slate-50">
+              <p className="text-xs text-slate-500 max-w-xs">
+                Concept visuel uniquement. Votre site sera 100 % personnalisé à votre image.
               </p>
-              <Button href="/contact" className="w-full sm:w-auto">
-                Demander ce style <ExternalLink size={16} className="ml-2" />
-              </Button>
+              <div className="flex gap-3 shrink-0">
+                <Button href="/contact" variant="ghost" onClick={onClose}>
+                  Fermer
+                </Button>
+                <Button href="/contact">
+                  Créer un site similaire
+                  <ArrowRight size={16} />
+                </Button>
+              </div>
             </div>
-
-          </div>
+          </motion.div>
         </motion.div>
-      </motion.div>
+      )}
     </AnimatePresence>
   );
 }

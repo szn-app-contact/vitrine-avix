@@ -1,18 +1,18 @@
 'use client';
 
 import { cn } from '@/lib/utils';
-import { motion } from 'framer-motion';
 import Link from 'next/link';
 
 interface ButtonProps {
   children: React.ReactNode;
-  variant?: 'primary' | 'secondary' | 'outline' | 'ghost';
+  variant?: 'primary' | 'secondary' | 'outline' | 'ghost' | 'danger';
   size?: 'sm' | 'md' | 'lg';
   href?: string;
   onClick?: () => void;
   className?: string;
   type?: 'button' | 'submit';
   disabled?: boolean;
+  external?: boolean;
 }
 
 export default function Button({
@@ -24,14 +24,22 @@ export default function Button({
   className,
   type = 'button',
   disabled = false,
+  external = false,
 }: ButtonProps) {
-  const baseStyles = 'inline-flex items-center justify-center font-semibold rounded-xl transition-all duration-300 cursor-pointer';
-  
+  const baseStyles =
+    'inline-flex items-center justify-center font-semibold rounded-xl transition-all duration-200 cursor-pointer select-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 active:scale-[0.98]';
+
   const variants = {
-    primary: 'bg-blue-600 hover:bg-blue-500 text-white shadow-lg shadow-blue-600/25 hover:shadow-blue-500/40',
-    secondary: 'bg-white/5 hover:bg-white/10 text-white border border-white/10 hover:border-white/20',
-    outline: 'bg-transparent hover:bg-white/5 text-blue-400 border border-blue-500/30 hover:border-blue-500/60',
-    ghost: 'bg-transparent hover:bg-white/5 text-slate-300 hover:text-white',
+    primary:
+      'bg-blue-600 hover:bg-blue-700 text-white shadow-md shadow-blue-600/25 hover:shadow-lg hover:shadow-blue-600/30',
+    secondary:
+      'bg-slate-900 hover:bg-slate-800 text-white shadow-md',
+    outline:
+      'bg-white hover:bg-slate-50 text-blue-600 border-2 border-blue-600 hover:border-blue-700 hover:text-blue-700',
+    ghost:
+      'bg-transparent hover:bg-slate-100 text-slate-700 hover:text-slate-900',
+    danger:
+      'bg-red-600 hover:bg-red-700 text-white shadow-md shadow-red-600/25',
   };
 
   const sizes = {
@@ -40,28 +48,35 @@ export default function Button({
     lg: 'px-8 py-4 text-lg gap-3',
   };
 
-  const classes = cn(baseStyles, variants[variant], sizes[size], disabled && 'opacity-50 cursor-not-allowed', className);
+  const classes = cn(
+    baseStyles,
+    variants[variant],
+    sizes[size],
+    disabled && 'opacity-50 cursor-not-allowed pointer-events-none',
+    className
+  );
 
   if (href) {
     return (
-      <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-        <Link href={href} className={classes}>
-          {children}
-        </Link>
-      </motion.div>
+      <Link
+        href={href}
+        className={classes}
+        target={external ? '_blank' : undefined}
+        rel={external ? 'noopener noreferrer' : undefined}
+      >
+        {children}
+      </Link>
     );
   }
 
   return (
-    <motion.button
-      whileHover={{ scale: 1.02 }}
-      whileTap={{ scale: 0.98 }}
+    <button
       className={classes}
       onClick={onClick}
       type={type}
       disabled={disabled}
     >
       {children}
-    </motion.button>
+    </button>
   );
 }

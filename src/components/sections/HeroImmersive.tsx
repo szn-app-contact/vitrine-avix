@@ -1,185 +1,241 @@
 'use client';
 
 import { motion, useScroll, useTransform } from 'framer-motion';
-import { ArrowRight, Smartphone, MapPin, Store, CheckCircle2 } from 'lucide-react';
+import { useRef } from 'react';
+import {
+  ArrowRight, CheckCircle2, MapPin, Smartphone, Store,
+} from 'lucide-react';
 import Button from '@/components/ui/Button';
 import FadeIn from '@/components/interactive/FadeIn';
 
+// CSS Mockup: stylized "website preview"
+function WebsiteMockup() {
+  return (
+    <div className="w-full max-w-sm">
+      {/* Browser chrome */}
+      <div className="bg-slate-200 rounded-t-2xl px-4 py-2.5 flex items-center gap-2">
+        <div className="flex gap-1.5">
+          <div className="w-2.5 h-2.5 rounded-full bg-red-400" />
+          <div className="w-2.5 h-2.5 rounded-full bg-amber-400" />
+          <div className="w-2.5 h-2.5 rounded-full bg-emerald-400" />
+        </div>
+        <div className="flex-1 bg-white/80 rounded-full h-4 text-[10px] text-slate-400 flex items-center px-2">
+          votre-commerce.fr
+        </div>
+      </div>
+      {/* Site content */}
+      <div className="rounded-b-2xl border-2 border-t-0 border-slate-200 overflow-hidden shadow-2xl shadow-slate-200/60">
+        {/* Hero gradient */}
+        <div className="bg-gradient-to-br from-blue-700 via-blue-600 to-blue-800 p-6">
+          <div className="w-8 h-8 bg-white/20 rounded-lg mb-4 flex items-center justify-center">
+            <Store size={18} className="text-white" />
+          </div>
+          <div className="w-3/4 h-5 bg-white/50 rounded-lg mb-2" />
+          <div className="w-1/2 h-3 bg-white/30 rounded-lg mb-5" />
+          <div className="flex gap-2">
+            <div className="h-8 w-24 bg-white rounded-xl" />
+            <div className="h-8 w-20 bg-white/20 border border-white/40 rounded-xl" />
+          </div>
+        </div>
+        {/* Services section */}
+        <div className="bg-white p-4">
+          <div className="w-32 h-3 bg-slate-200 rounded mb-4 mx-auto" />
+          <div className="grid grid-cols-3 gap-2">
+            {[1,2,3].map(i => (
+              <div key={i} className="bg-slate-50 rounded-xl p-3 border border-slate-100 flex flex-col items-center gap-1.5">
+                <div className="w-6 h-6 bg-blue-100 rounded-lg" />
+                <div className="w-full h-2 bg-slate-200 rounded" />
+              </div>
+            ))}
+          </div>
+        </div>
+        {/* Contact bar */}
+        <div className="bg-slate-900 px-4 py-3 flex items-center justify-between">
+          <div className="flex gap-2 items-center">
+            <MapPin size={12} className="text-blue-400" />
+            <div className="w-24 h-2 bg-white/30 rounded" />
+          </div>
+          <div className="w-16 h-6 bg-blue-500 rounded-lg" />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// CSS Mockup: Google Business Profile mini card
+function GoogleProfileMockup() {
+  return (
+    <div className="bg-white rounded-2xl border border-slate-200 shadow-lg p-4 w-64">
+      <div className="flex items-start gap-3 mb-4">
+        <div className="w-12 h-12 rounded-xl bg-slate-100 border border-slate-200 flex items-center justify-center shrink-0">
+          <Store className="text-slate-400" size={20} />
+        </div>
+        <div>
+          <div className="font-bold text-slate-900 text-sm mb-1">Votre Commerce</div>
+          <div className="flex gap-0.5 mb-1">
+            {[1,2,3,4,5].map(i => (
+              <div key={i} className="w-3 h-3 bg-amber-400 rounded-sm" />
+            ))}
+          </div>
+          <div className="text-xs text-slate-500">Ouvert ⋅ Ferme à 19h00</div>
+        </div>
+      </div>
+      <div className="grid grid-cols-3 gap-1.5">
+        <div className="bg-blue-50 border border-blue-100 text-blue-700 rounded-xl py-1.5 text-center text-xs font-medium">
+          Itinéraire
+        </div>
+        <div className="bg-slate-50 border border-slate-100 text-slate-600 rounded-xl py-1.5 text-center text-xs font-medium">
+          Appeler
+        </div>
+        <div className="bg-slate-50 border border-slate-100 text-slate-600 rounded-xl py-1.5 text-center text-xs font-medium">
+          Avis
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// CSS Mockup: NFC Mobile card
+function NfcMobileMockup() {
+  return (
+    <div className="flex items-center gap-4">
+      <div className="w-24 bg-slate-800 rounded-[1.5rem] p-1.5 shadow-xl">
+        <div className="bg-white rounded-[1.2rem] overflow-hidden">
+          <div className="h-4 bg-slate-100" />
+          <div className="p-2">
+            <div className="w-full h-1.5 bg-slate-800 rounded mb-1" />
+            <div className="w-3/4 h-1 bg-slate-300 rounded mb-2" />
+            <div className="h-5 bg-blue-600 rounded-lg" />
+          </div>
+        </div>
+      </div>
+      <div className="flex flex-col gap-1">
+        {[1,2,3].map(i => (
+          <div key={i} className="border-r-2 border-t-2 border-blue-400 rounded-tr-full opacity-70"
+            style={{ width: i * 10, height: i * 10 }} />
+        ))}
+      </div>
+      <div className="w-16 h-20 bg-gradient-to-b from-blue-700 to-blue-900 rounded-xl shadow-lg flex flex-col items-center justify-center gap-1.5">
+        <div className="text-white font-bold text-xs">AVIX</div>
+        <Smartphone size={16} className="text-white/60" />
+      </div>
+    </div>
+  );
+}
+
+const benefits = [
+  { label: 'Site professionnel', desc: 'Conçu pour rassurer et convertir vos visiteurs locaux' },
+  { label: 'Visible sur Google', desc: 'Fiche Business Profile optimisée et cohérente avec votre site' },
+  { label: 'Avis facilités', desc: 'Support NFC pour simplifier le parcours client' },
+  { label: 'Sans abonnement', desc: 'Paiement unique — vous gardez votre site et vos accès' },
+];
+
 export default function HeroImmersive() {
-  const { scrollY } = useScroll();
-  const y1 = useTransform(scrollY, [0, 1000], [0, -100]);
-  const y2 = useTransform(scrollY, [0, 1000], [0, 150]);
-  const opacity = useTransform(scrollY, [0, 300], [1, 0]);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({ target: containerRef, offset: ['start start', 'end start'] });
+  const parallaxY = useTransform(scrollYProgress, [0, 1], [0, -80]);
 
   return (
-    <section className="relative min-h-[100svh] flex items-center pt-24 pb-16 overflow-hidden bg-slate-50 perspective-1000">
-      {/* Background Gradients (Light) */}
-      <div className="absolute inset-0 bg-gradient-to-br from-slate-50 via-white to-blue-50 z-0" />
-      <div className="absolute top-[-20%] left-[-10%] w-[50%] h-[50%] rounded-full bg-blue-500/5 blur-[120px] pointer-events-none" />
-      <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] rounded-full bg-emerald-500/5 blur-[120px] pointer-events-none" />
-      <div className="noise opacity-10" /> {/* Reduced noise opacity for light mode */}
+    <section
+      ref={containerRef}
+      className="relative min-h-[100svh] flex items-center pt-28 pb-20 overflow-hidden bg-gradient-to-b from-slate-50 via-white to-white"
+    >
+      {/* Background decoration */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-0 right-0 w-[600px] h-[600px] rounded-full bg-blue-500/5 blur-[120px]" />
+        <div className="absolute bottom-0 left-0 w-[400px] h-[400px] rounded-full bg-emerald-500/5 blur-[100px]" />
+      </div>
 
-      <div className="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-8 items-center">
-          
-          {/* Left Content */}
-          <div className="max-w-2xl relative z-20">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 max-w-7xl">
+        <div className="grid lg:grid-cols-2 gap-12 xl:gap-20 items-center">
+
+          {/* Left: Content */}
+          <div>
             <FadeIn delay={0.1}>
-              <div className="inline-flex items-center gap-2 px-3 py-1.5 mb-6 text-sm font-medium text-blue-700 bg-blue-100 border border-blue-200 rounded-full shadow-sm">
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 mb-6 text-sm font-medium text-blue-700 bg-blue-50 border border-blue-200 rounded-full">
                 <span className="relative flex h-2 w-2">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-500 opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-600"></span>
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-500 opacity-75" />
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-600" />
                 </span>
-                Agence web de proximité
+                Agence web locale — Vendée & régions voisines
               </div>
             </FadeIn>
 
             <FadeIn delay={0.2}>
-              <h1 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold font-heading text-navy-950 leading-[1.1] mb-6 tracking-tight">
-                Donnez à votre commerce une présence en ligne qui <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-sky-500 to-emerald-500">inspire confiance.</span>
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-slate-900 font-heading leading-[1.1] mb-6">
+                Votre commerce mérite une présence en ligne{' '}
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-blue-400">
+                  qui inspire confiance.
+                </span>
               </h1>
             </FadeIn>
 
             <FadeIn delay={0.3}>
-              <p className="text-lg md:text-xl text-slate-600 mb-10 leading-relaxed font-light max-w-xl">
-                AVIX crée des sites vitrines modernes, optimise votre visibilité Google et facilite les avis clients grâce à des supports NFC simples à utiliser.
+              <p className="text-lg text-slate-600 mb-8 leading-relaxed max-w-lg">
+                AVIX crée des sites vitrines professionnels, optimise votre fiche Google et facilite les avis clients grâce à des supports NFC — pour les commerces locaux en Vendée et ses environs.
               </p>
             </FadeIn>
 
             <FadeIn delay={0.4}>
-              <div className="flex flex-col sm:flex-row items-center gap-4">
-                <Button href="/contact" size="lg" className="w-full sm:w-auto group relative overflow-hidden bg-blue-600 hover:bg-blue-700 text-white shadow-[0_10px_40px_rgba(37,99,235,0.2)]">
-                  <span className="relative z-10 flex items-center">
-                    Demander un devis
-                    <ArrowRight size={18} className="ml-2 group-hover:translate-x-1 transition-transform" />
-                  </span>
+              <div className="flex flex-col sm:flex-row gap-4 mb-10">
+                <Button href="/contact" size="lg">
+                  Demander un devis gratuit
+                  <ArrowRight size={18} />
                 </Button>
-                
-                <Button href="/offres" variant="outline" size="lg" className="w-full sm:w-auto bg-white hover:bg-slate-50 border-slate-200 text-slate-700 shadow-sm">
+                <Button href="/offres" variant="outline" size="lg">
                   Voir nos offres
                 </Button>
               </div>
             </FadeIn>
+
+            <FadeIn delay={0.5}>
+              <div className="grid grid-cols-2 gap-3">
+                {benefits.map((b) => (
+                  <div key={b.label} className="flex items-start gap-2.5">
+                    <CheckCircle2 className="text-emerald-500 shrink-0 mt-0.5" size={18} />
+                    <div>
+                      <div className="text-sm font-semibold text-slate-800">{b.label}</div>
+                      <div className="text-xs text-slate-500">{b.desc}</div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </FadeIn>
           </div>
 
-          {/* Right Visual Composite (Light Premium Style) */}
-          <motion.div 
-            style={{ opacity }}
-            className="relative lg:h-[600px] w-full hidden md:block perspective-[2000px] transform-style-3d"
-          >
-            {/* Main Mockup Container (White) */}
-            <motion.div
-              style={{ y: y1 }}
-              initial={{ rotateY: -10, rotateX: 5, z: -100, opacity: 0 }}
-              animate={{ rotateY: -15, rotateX: 5, z: 0, opacity: 1 }}
-              transition={{ duration: 1.5, ease: "easeOut" }}
-              className="absolute right-0 top-1/2 -translate-y-1/2 w-[80%] aspect-[3/4] rounded-2xl bg-white border border-slate-200 shadow-[20px_20px_60px_rgba(0,0,0,0.05),0_0_40px_rgba(37,99,235,0.05)] overflow-hidden flex flex-col"
-            >
-              {/* Browser Bar */}
-              <div className="h-10 bg-slate-50 border-b border-slate-200 flex items-center px-4 gap-2">
-                <div className="flex gap-1.5">
-                  <div className="w-3 h-3 rounded-full bg-red-400" />
-                  <div className="w-3 h-3 rounded-full bg-amber-400" />
-                  <div className="w-3 h-3 rounded-full bg-emerald-400" />
-                </div>
-                <div className="mx-auto h-5 w-1/2 bg-white rounded-md border border-slate-200 shadow-sm" />
-              </div>
-              {/* Mockup Content */}
-              <div className="flex-1 bg-gradient-to-b from-slate-50 to-white p-6 relative overflow-hidden">
-                <div className="absolute top-0 right-0 w-64 h-64 bg-blue-500/10 blur-[80px]" />
-                
-                <div className="flex items-center justify-between mb-8">
-                   <div className="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center">
-                     <Store className="text-white w-4 h-4" />
-                   </div>
-                   <div className="flex gap-2">
-                     <div className="w-12 h-3 bg-slate-200 rounded-full" />
-                     <div className="w-12 h-3 bg-slate-200 rounded-full" />
-                     <div className="w-12 h-3 bg-slate-200 rounded-full" />
-                   </div>
-                </div>
+          {/* Right: Visual Composite */}
+          <motion.div style={{ y: parallaxY }} className="hidden lg:block">
+            <div className="relative h-[560px] flex items-center justify-center">
 
-                <div className="w-3/4 h-12 bg-slate-200 rounded-lg mb-6" />
-                <div className="w-1/2 h-4 bg-slate-100 rounded-lg mb-2" />
-                <div className="w-1/3 h-4 bg-slate-100 rounded-lg mb-10" />
-                
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="aspect-square bg-slate-100 rounded-xl border border-slate-200 shadow-sm" />
-                  <div className="aspect-square bg-slate-100 rounded-xl border border-slate-200 shadow-sm" />
-                </div>
+              {/* Main: Website Mockup */}
+              <div className="absolute top-0 right-0 left-0">
+                <WebsiteMockup />
               </div>
-            </motion.div>
 
-            {/* Floating Neutral Card 1 : Google Profile Card */}
-            <motion.div
-              style={{ y: y2 }}
-              initial={{ y: 50, opacity: 0, z: 50 }}
-              animate={{ y: 0, opacity: 1, z: 50 }}
-              transition={{ duration: 1, delay: 0.5, ease: "easeOut" }}
-              className="absolute bottom-1/4 -left-10 w-72 bg-white/90 backdrop-blur-xl border border-slate-200 p-5 rounded-2xl shadow-[0_20px_40px_rgba(0,0,0,0.08)]"
-            >
-              <div className="flex items-center gap-4 mb-4">
-                <div className="w-12 h-12 rounded-full bg-slate-100 flex items-center justify-center text-blue-600 border border-slate-200">
-                  <MapPin size={24} />
-                </div>
-                <div>
-                  <div className="text-navy-950 font-bold text-sm mb-1">Votre Commerce</div>
-                  <div className="flex gap-1 mb-1">
-                     <div className="w-3 h-3 rounded-full bg-amber-400" />
-                     <div className="w-3 h-3 rounded-full bg-amber-400" />
-                     <div className="w-3 h-3 rounded-full bg-amber-400" />
-                     <div className="w-3 h-3 rounded-full bg-amber-400" />
-                     <div className="w-3 h-3 rounded-full bg-amber-400" />
-                  </div>
-                  <div className="text-slate-500 text-xs">Ouvert ⋅ Ferme à 19:00</div>
-                </div>
-              </div>
-              
-              <div className="grid grid-cols-3 gap-2">
-                 <div className="h-8 bg-blue-50 text-blue-700 rounded-lg flex items-center justify-center text-xs font-semibold border border-blue-100">Itinéraire</div>
-                 <div className="h-8 bg-slate-50 text-slate-700 rounded-lg flex items-center justify-center text-xs font-semibold border border-slate-200">Appeler</div>
-                 <div className="h-8 bg-slate-50 text-slate-700 rounded-lg flex items-center justify-center text-xs font-semibold border border-slate-200">Avis</div>
-              </div>
-            </motion.div>
+              {/* Floating: Google profile card */}
+              <motion.div
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.8, duration: 0.6 }}
+                className="absolute bottom-20 -left-8 drop-shadow-2xl"
+              >
+                <GoogleProfileMockup />
+              </motion.div>
 
-            {/* Floating NFC Badge + Phone */}
-            <motion.div
-              initial={{ y: -50, opacity: 0, z: 100 }}
-              animate={{ 
-                y: [-20, -10, -20],
-                opacity: 1,
-                z: 100
-              }}
-              transition={{ 
-                opacity: { duration: 1, delay: 0.8 },
-                y: { repeat: Infinity, duration: 4, ease: "easeInOut" }
-              }}
-              className="absolute top-1/4 right-[-20px] bg-white rounded-2xl shadow-[0_10px_30px_rgba(0,0,0,0.1)] border border-slate-200 p-3 flex items-center gap-3"
-            >
-              <div className="w-12 h-12 bg-emerald-50 rounded-xl flex items-center justify-center border border-emerald-100">
-                <Smartphone className="text-emerald-600 w-6 h-6" />
-              </div>
-              <div className="pr-2">
-                 <div className="text-sm font-bold text-navy-950">Avis facilité</div>
-                 <div className="text-xs text-slate-500">Support NFC inclus</div>
-              </div>
-            </motion.div>
+              {/* Floating: NFC visual */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 1.1, duration: 0.6 }}
+                className="absolute bottom-0 right-0 bg-white rounded-2xl border border-slate-200 p-4 shadow-xl"
+              >
+                <p className="text-xs font-semibold text-slate-500 mb-3 uppercase tracking-wide">
+                  Support NFC inclus
+                </p>
+                <NfcMobileMockup />
+              </motion.div>
 
-            {/* Stats Card -> Neutral Confidence Card */}
-            <motion.div
-              initial={{ x: 50, opacity: 0 }}
-              animate={{ x: 0, opacity: 1 }}
-              transition={{ duration: 1, delay: 1 }}
-              className="absolute top-10 left-10 bg-white/90 backdrop-blur-md border border-slate-200 p-4 rounded-xl flex items-center gap-4 shadow-lg"
-            >
-              <div className="w-10 h-10 rounded-lg bg-emerald-50 flex items-center justify-center border border-emerald-100">
-                <CheckCircle2 className="text-emerald-600" size={20} />
-              </div>
-              <div>
-                <div className="text-navy-950 font-bold text-sm">Visibilité optimale</div>
-                <div className="text-xs text-slate-500">Site + Fiche + NFC</div>
-              </div>
-            </motion.div>
+            </div>
           </motion.div>
 
         </div>
