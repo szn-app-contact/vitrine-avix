@@ -8,6 +8,25 @@ import Button from '@/components/ui/Button';
 import { CheckCircle2, ArrowRight, Store } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
+// Static color map — Tailwind MUST see full class names to generate them
+const sectorColorMap: Record<string, { bg: string; glow: string; text: string; check: string }> = {
+  amber:   { bg: 'bg-amber-500/10',   glow: 'bg-amber-500/10',   text: 'text-amber-500',   check: 'text-amber-500' },
+  purple:  { bg: 'bg-purple-500/10',  glow: 'bg-purple-500/10',  text: 'text-purple-500',  check: 'text-purple-500' },
+  rose:    { bg: 'bg-rose-500/10',    glow: 'bg-rose-500/10',    text: 'text-rose-500',    check: 'text-rose-500' },
+  slate:   { bg: 'bg-slate-500/10',   glow: 'bg-slate-500/10',   text: 'text-slate-500',   check: 'text-slate-500' },
+  emerald: { bg: 'bg-emerald-500/10', glow: 'bg-emerald-500/10', text: 'text-emerald-500', check: 'text-emerald-500' },
+  cyan:    { bg: 'bg-cyan-500/10',    glow: 'bg-cyan-500/10',    text: 'text-cyan-500',    check: 'text-cyan-500' },
+};
+
+const sectorGlowColorHex: Record<string, string> = {
+  amber:   '#f59e0b',
+  purple:  '#a855f7',
+  rose:    '#f43f5e',
+  slate:   '#64748b',
+  emerald: '#10b981',
+  cyan:    '#06b6d4',
+};
+
 export default function InteractiveSectors() {
   const [activeSectorId, setActiveSectorId] = useState(sectors[0].id);
   
@@ -16,10 +35,13 @@ export default function InteractiveSectors() {
   return (
     <section className="section-padding bg-white relative overflow-hidden">
       {/* Dynamic Background Glow based on active sector color (Light Theme) */}
-      <div className="absolute inset-0 transition-colors duration-1000 ease-in-out z-0 pointer-events-none" style={{
-        background: `radial-gradient(circle at 70% 50%, var(--color-${activeSector.color}-500) 0%, transparent 40%)`,
-        opacity: 0.05
-      }} />
+      <div
+        className="absolute inset-0 transition-all duration-1000 ease-in-out z-0 pointer-events-none"
+        style={{
+          background: `radial-gradient(circle at 70% 50%, ${sectorGlowColorHex[activeSector.color] ?? '#3b82f6'} 0%, transparent 40%)`,
+          opacity: 0.06,
+        }}
+      />
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <SectionHeader
@@ -91,15 +113,15 @@ export default function InteractiveSectors() {
                   {/* Dynamic stylized background instead of fragile Unsplash image */}
                   <div className="flex-1 relative flex items-center justify-center overflow-hidden">
                     <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'radial-gradient(circle at center, black 1px, transparent 1px)', backgroundSize: '24px 24px' }} />
-                    <motion.div 
-                      className={`absolute w-[150%] h-[150%] rounded-full bg-${activeSector.color}-500/10 blur-[100px]`}
+                    <motion.div
+                      className={cn('absolute w-[150%] h-[150%] rounded-full blur-[100px]', sectorColorMap[activeSector.color]?.glow ?? 'bg-blue-500/10')}
                       animate={{ scale: [1, 1.1, 1], rotate: [0, 90, 0] }}
-                      transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+                      transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
                     />
-                    
+
                     <div className="relative z-10 flex flex-col items-center">
-                      <div className={`w-20 h-20 rounded-2xl bg-white border border-slate-200 shadow-md flex items-center justify-center mb-6`}>
-                        <Store className={`text-${activeSector.color}-500`} size={40} />
+                      <div className="w-20 h-20 rounded-2xl bg-white border border-slate-200 shadow-md flex items-center justify-center mb-6">
+                        <Store className={cn(sectorColorMap[activeSector.color]?.text ?? 'text-blue-500')} size={40} />
                       </div>
                       <h3 className="text-3xl font-bold font-heading text-navy-950 mb-2">{activeSector.name}</h3>
                       <p className="text-slate-500 text-sm">Aperçu visuel (Concept)</p>
@@ -119,7 +141,7 @@ export default function InteractiveSectors() {
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                       {activeSector.features.map((feature, i) => (
                         <div key={i} className="flex items-center gap-3">
-                          <CheckCircle2 className={`text-${activeSector.color}-500 shrink-0`} size={18} />
+                          <CheckCircle2 className={cn(sectorColorMap[activeSector.color]?.check ?? 'text-blue-500', 'shrink-0')} size={18} />
                           <span className="text-slate-600 text-sm">{feature}</span>
                         </div>
                       ))}
