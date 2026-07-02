@@ -98,9 +98,7 @@ export default function ConceptModal({ isOpen, onClose, concept }: ConceptModalP
 
   if (!concept) return null;
 
-  const backgroundStyle = activeColor
-    ? { backgroundColor: activeColor }
-    : { background: `linear-gradient(135deg, ${concept.gradientFrom} 0%, ${concept.gradientTo} 100%)` };
+  const staticGradient = `linear-gradient(135deg, ${concept.gradientFrom} 0%, ${concept.gradientTo} 100%)`;
 
   return (
     <AnimatePresence>
@@ -121,10 +119,10 @@ export default function ConceptModal({ isOpen, onClose, concept }: ConceptModalP
             onClick={(e) => e.stopPropagation()}
             className="bg-white w-full max-w-4xl max-h-[90vh] rounded-3xl shadow-2xl overflow-hidden flex flex-col"
           >
-            {/* En-tête coloré — gradient inline */}
+            {/* En-tête coloré — gradient inline FIXE */}
             <div
-              style={backgroundStyle}
-              className="p-6 flex items-center justify-between flex-shrink-0 transition-all duration-300 ease-in-out"
+              style={{ background: staticGradient }}
+              className="p-6 flex items-center justify-between flex-shrink-0"
             >
               <div className="flex items-center gap-3">
                 <span className="text-4xl">{concept.emoji}</span>
