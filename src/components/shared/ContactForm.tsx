@@ -67,12 +67,27 @@ export default function ContactForm() {
   const onSubmit = async (values: FormValues) => {
     setServerError(null);
     try {
+      // LOG côté navigateur — vérifier les données envoyées
+      console.log('[AVIX Contact] Payload envoyé à /api/contact :', {
+        name:        values.name,
+        businessName: values.businessName,
+        email:       values.email,
+        phone:       values.phone,
+        city:        values.city,
+        projectType: values.projectType,
+        budget:      values.budget,
+        message:     values.message,
+      });
+
       const res = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(values),
       });
       const json = await res.json();
+
+      // LOG côté navigateur — vérifier la réponse API
+      console.log('[AVIX Contact] Réponse API :', { status: res.status, json });
 
       if (!res.ok || json.error) {
         setServerError(
@@ -84,7 +99,8 @@ export default function ContactForm() {
 
       reset();
       setSubmitted(true);
-    } catch {
+    } catch (err) {
+      console.error('[AVIX Contact] Erreur fetch :', err);
       setServerError(
         'Une erreur est survenue. Vous pouvez aussi nous écrire directement à avix.digital.contact@gmail.com.'
       );
