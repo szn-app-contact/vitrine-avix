@@ -15,72 +15,112 @@ const ContactSchema = z.object({
   _hp:          z.string().max(0).optional(), // honeypot
 });
 
+// ─── Échappe les caractères HTML pour éviter l'injection dans les emails ─────
+function esc(str?: string): string {
+  if (!str) return '';
+  return str
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
 // ─── Template email interne AVIX ──────────────────────────────────────────────
 function buildInternalEmail(data: z.infer<typeof ContactSchema>): string {
   const date = new Date().toLocaleString('fr-FR', {
-    weekday: 'long',
-    year:    'numeric',
-    month:   'long',
-    day:     'numeric',
-    hour:    '2-digit',
-    minute:  '2-digit',
+    weekday:  'long',
+    year:     'numeric',
+    month:    'long',
+    day:      'numeric',
+    hour:     '2-digit',
+    minute:   '2-digit',
     timeZone: 'Europe/Paris',
   });
 
-  // Valeur affichée ou "—" si vide
-  const val = (v?: string) => (v && v.trim() ? v.trim() : '—');
+  // Valeur échappée ou "—" si vide
+  const val = (v?: string) => (v && v.trim() ? esc(v.trim()) : '&mdash;');
 
-  const row = (label: string, content: string) => `
-    <tr>
-      <td style="padding:10px 16px;font-weight:600;color:#64748b;width:170px;vertical-align:top;border-bottom:1px solid #f1f5f9;white-space:nowrap;">${label}</td>
-      <td style="padding:10px 16px;color:#0f172a;border-bottom:1px solid #f1f5f9;">${content}</td>
+  const row = (label: string, content: string) =>
+    `<tr>
+      <td style="padding:9px 16px;font-weight:600;color:#64748b;width:160px;vertical-align:top;border-bottom:1px solid #f1f5f9;white-space:nowrap;font-size:13px;">${label}</td>
+      <td style="padding:9px 16px;color:#0f172a;border-bottom:1px solid #f1f5f9;font-size:13px;">${content}</td>
     </tr>`;
+
+  // Liens d'action client (email + téléphone)
+  const clientEmail = esc(data.email);
+  const clientPhone = data.phone ? esc(data.phone.trim()) : null;
+
+  const actionButtons = `
+    <table role="presentation" cellpadding="0" cellspacing="0" style="margin-top:20px;">
+      <tr>
+        <td style="padding-right:10px;">
+          <a href="mailto:${clientEmail}"
+             style="display:inline-block;background:#1d4ed8;color:#ffffff;text-decoration:none;padding:10px 18px;border-radius:8px;font-size:13px;font-weight:600;">
+            Repondre au client
+          </a>
+        </td>
+        ${clientPhone ? `<td>
+          <a href="tel:${clientPhone}"
+             style="display:inline-block;background:#0f172a;color:#ffffff;text-decoration:none;padding:10px 18px;border-radius:8px;font-size:13px;font-weight:600;">
+            Appeler : ${clientPhone}
+          </a>
+        </td>` : ''}
+      </tr>
+    </table>`;
 
   return `<!DOCTYPE html>
 <html lang="fr">
 <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
 <body style="margin:0;padding:0;background:#f8fafc;font-family:system-ui,-apple-system,sans-serif;">
-<div style="max-width:620px;margin:32px auto;background:#ffffff;border-radius:16px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,0.08);">
+<div style="max-width:620px;margin:24px auto;background:#ffffff;border-radius:14px;overflow:hidden;box-shadow:0 2px 16px rgba(0,0,0,0.07);">
 
-  <!-- Header -->
-  <div style="background:linear-gradient(135deg,#1d4ed8 0%,#0891b2 100%);padding:28px 32px 22px;">
-    <div style="font-size:22px;font-weight:800;color:#fff;letter-spacing:-0.5px;margin-bottom:6px;">
-      AVIX <span style="font-size:12px;font-weight:500;background:rgba(255,255,255,0.2);padding:2px 10px;border-radius:99px;vertical-align:middle;">Nouvelle demande</span>
+  <!-- Header compact -->
+  <div style="background:linear-gradient(135deg,#1d4ed8 0%,#0891b2 100%);padding:18px 28px 16px;">
+    <div style="font-size:18px;font-weight:800;color:#fff;letter-spacing:-0.3px;">
+      AVIX
+      <span style="font-size:11px;font-weight:500;background:rgba(255,255,255,0.2);padding:2px 9px;border-radius:99px;vertical-align:middle;margin-left:8px;">Nouvelle demande</span>
     </div>
-    <div style="color:rgba(255,255,255,0.85);font-size:13px;">${date}</div>
+    <div style="color:rgba(255,255,255,0.8);font-size:12px;margin-top:3px;">${esc(date)}</div>
   </div>
 
-  <!-- Coordonnées client -->
-  <div style="padding:24px 32px 0;">
-    <div style="font-size:11px;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:10px;">Coordonnées client</div>
-    <table style="width:100%;border-collapse:collapse;background:#f8fafc;border-radius:10px;overflow:hidden;border:1px solid #e2e8f0;">
-      ${row('Nom &amp; Prénom',       val(data.name))}
-      ${row('Établissement',          val(data.businessName))}
-      ${row('Email',                  `<a href="mailto:${data.email}" style="color:#1d4ed8;">${data.email}</a>`)}
-      ${row('Téléphone',              data.phone ? `<a href="tel:${data.phone}" style="color:#1d4ed8;">${data.phone}</a>` : '—')}
-      ${row('Ville / Commune',        val(data.city))}
+  <!-- Coordonnees client -->
+  <div style="padding:20px 28px 0;">
+    <div style="font-size:10px;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:8px;">Coordonnees client</div>
+    <table style="width:100%;border-collapse:collapse;background:#f8fafc;border-radius:8px;overflow:hidden;border:1px solid #e2e8f0;">
+      ${row('Nom &amp; Prenom',  val(data.name))}
+      ${row('Etablissement',     val(data.businessName))}
+      ${row('Email',             `<a href="mailto:${clientEmail}" style="color:#1d4ed8;text-decoration:none;">${clientEmail}</a>`)}
+      ${row('Telephone',         clientPhone ? `<a href="tel:${clientPhone}" style="color:#1d4ed8;text-decoration:none;">${clientPhone}</a>` : '&mdash;')}
+      ${row('Ville / Commune',   val(data.city))}
     </table>
   </div>
 
   <!-- Projet -->
-  <div style="padding:20px 32px 0;">
-    <div style="font-size:11px;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:10px;">Projet</div>
-    <table style="width:100%;border-collapse:collapse;background:#f8fafc;border-radius:10px;overflow:hidden;border:1px solid #e2e8f0;">
-      ${row('Type de projet',  val(data.projectType))}
-      ${row('Budget approximatif', val(data.budget))}
+  <div style="padding:16px 28px 0;">
+    <div style="font-size:10px;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:8px;">Projet</div>
+    <table style="width:100%;border-collapse:collapse;background:#f8fafc;border-radius:8px;overflow:hidden;border:1px solid #e2e8f0;">
+      ${row('Type de projet',       val(data.projectType))}
+      ${row('Budget approximatif',  val(data.budget))}
     </table>
   </div>
 
   <!-- Message -->
-  <div style="padding:20px 32px 28px;">
-    <div style="font-size:11px;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:10px;">Message du client</div>
-    <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;padding:16px 20px;color:#1e293b;line-height:1.75;white-space:pre-wrap;font-size:14px;">${data.message}</div>
+  <div style="padding:16px 28px 0;">
+    <div style="font-size:10px;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:8px;">Message</div>
+    <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:14px 18px;color:#1e293b;line-height:1.75;white-space:pre-wrap;font-size:13px;">${esc(data.message)}</div>
+  </div>
+
+  <!-- Actions rapides -->
+  <div style="padding:20px 28px 24px;">
+    <div style="font-size:10px;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:8px;">Actions rapides</div>
+    ${actionButtons}
   </div>
 
   <!-- Footer -->
-  <div style="background:#f1f5f9;border-top:1px solid #e2e8f0;padding:14px 32px;text-align:center;">
+  <div style="background:#f1f5f9;border-top:1px solid #e2e8f0;padding:12px 28px;text-align:center;">
     <p style="margin:0;font-size:11px;color:#94a3b8;">
-      Source : formulaire de contact AVIX — /contact &nbsp;·&nbsp;
+      Source : formulaire de contact AVIX &mdash; /contact &nbsp;&middot;&nbsp;
       <a href="https://www.avix-digital.com" style="color:#1d4ed8;">avix-digital.com</a>
     </p>
   </div>
@@ -88,6 +128,47 @@ function buildInternalEmail(data: z.infer<typeof ContactSchema>): string {
 </div>
 </body>
 </html>`;
+}
+
+// ─── Version plain text de l'email interne ────────────────────────────────────
+function buildInternalPlainText(data: z.infer<typeof ContactSchema>): string {
+  const date = new Date().toLocaleString('fr-FR', {
+    weekday:  'long',
+    year:     'numeric',
+    month:    'long',
+    day:      'numeric',
+    hour:     '2-digit',
+    minute:   '2-digit',
+    timeZone: 'Europe/Paris',
+  });
+  const val = (v?: string) => (v && v.trim() ? v.trim() : '—');
+  const sep = '─'.repeat(50);
+
+  return [
+    'AVIX — Nouvelle demande de devis',
+    sep,
+    `Date : ${date}`,
+    '',
+    'COORDONNEES CLIENT',
+    sep,
+    `Nom & Prenom    : ${val(data.name)}`,
+    `Etablissement   : ${val(data.businessName)}`,
+    `Email           : ${val(data.email)}`,
+    `Telephone       : ${val(data.phone)}`,
+    `Ville / Commune : ${val(data.city)}`,
+    '',
+    'PROJET',
+    sep,
+    `Type de projet      : ${val(data.projectType)}`,
+    `Budget approximatif : ${val(data.budget)}`,
+    '',
+    'MESSAGE',
+    sep,
+    data.message.trim(),
+    '',
+    sep,
+    'Source : formulaire de contact AVIX — avix-digital.com',
+  ].join('\n');
 }
 
 // ─── Template email confirmation prospect ─────────────────────────────────────
@@ -201,8 +282,9 @@ export async function POST(request: NextRequest) {
       from:     fromEmail,
       to:       [contactEmail],
       replyTo:  data.email,          // ← répondre clique = répond au client
-      subject:  `Nouvelle demande de devis — AVIX — ${data.name}`,
+      subject:  `Nouvelle demande AVIX — ${data.projectType} — ${data.name}`,
       html:     buildInternalEmail(data),
+      text:     buildInternalPlainText(data),
     });
 
     if (sendError) {
