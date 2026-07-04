@@ -14,16 +14,16 @@ export default function StickyTimeline() {
   });
 
   return (
-    <section className="bg-slate-50 py-24 relative" ref={containerRef}>
+    <section className="bg-slate-50 py-14 md:py-20 relative" ref={containerRef}>
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <SectionHeader
           badge="Notre Méthode"
-          title="Un accompagnement étape par étape"
-          subtitle="Pas de processus compliqué. Nous gérons la technique pour que vous puissiez vous concentrer sur votre métier."
+          title="Un accompagnement simple, étape par étape"
+          subtitle="Vous n’avez pas besoin de comprendre la technique. On s’occupe de tout : site, fiche Google, installation NFC. Vous n’avez qu’à valider."
           theme="light"
         />
 
-        <div className="mt-20 max-w-4xl mx-auto relative">
+        <div className="mt-12 max-w-4xl mx-auto relative">
           {/* Progress Line */}
           <div className="absolute left-[27px] md:left-1/2 top-0 bottom-0 w-1 bg-slate-200 md:-translate-x-1/2 rounded-full overflow-hidden">
             <motion.div 
@@ -68,6 +68,18 @@ export default function StickyTimeline() {
               );
             })}
           </div>
+        </div>
+
+        {/* CTA après les étapes */}
+        <div className="text-center mt-12">
+          <p className="text-slate-500 text-sm mb-4">Premier échange gratuit, sans engagement, sans jargon technique.</p>
+          <a
+            href="/contact"
+            className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded-xl transition-colors"
+          >
+            Discuter de mon projet
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+          </a>
         </div>
       </div>
     </section>

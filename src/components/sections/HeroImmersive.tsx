@@ -124,10 +124,10 @@ function NfcMobileMockup() {
 }
 
 const benefits = [
-  { label: 'Site professionnel', desc: 'Conçu pour rassurer et convertir vos visiteurs locaux' },
-  { label: 'Visible sur Google', desc: 'Fiche Business Profile optimisée et cohérente avec votre site' },
-  { label: 'Avis facilités', desc: 'Support NFC pour simplifier le parcours client' },
-  { label: 'Sans abonnement', desc: 'Paiement unique — vous gardez votre site et vos accès' },
+  { label: 'Site professionnel', desc: 'Vos clients trouvent vos horaires, services et contact en quelques secondes' },
+  { label: 'Visible sur Google', desc: 'Fiche Google complète et cohérente avec votre site pour être trouvé plus facilement' },
+  { label: 'Avis simplifiés', desc: 'Une plaque NFC posée sur votre comptoir : le client approche son téléphone, la page d’avis s’ouvre' },
+  { label: 'Sans abonnement', desc: 'Paiement unique — votre site vous appartient et vous gardez tous vos accès' },
 ];
 
 export default function HeroImmersive() {
@@ -138,7 +138,7 @@ export default function HeroImmersive() {
   return (
     <section
       ref={containerRef}
-      className="relative min-h-[100svh] flex items-center pt-28 pb-20 overflow-hidden bg-gradient-to-b from-slate-50 via-white to-white"
+      className="relative min-h-[90svh] flex items-center pt-24 pb-16 overflow-hidden bg-gradient-to-b from-slate-50 via-white to-white"
     >
       {/* Background decoration */}
       <div className="absolute inset-0 pointer-events-none">
@@ -172,7 +172,7 @@ export default function HeroImmersive() {
 
             <FadeIn delay={0.3}>
               <p className="text-lg text-slate-600 mb-8 leading-relaxed max-w-lg">
-                AVIX crée des sites vitrines professionnels, optimise votre fiche Google et facilite les avis clients grâce à des supports NFC — pour les commerces locaux en Vendée et ses environs.
+                On crée votre site vitrine, on optimise votre fiche Google et on installe un support NFC pour faciliter vos avis clients — pour les commerces locaux en Vendée et ses alentours. Simple, concret, efficace.
               </p>
             </FadeIn>
 

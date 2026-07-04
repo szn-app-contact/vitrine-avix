@@ -9,18 +9,18 @@ import FadeIn from '@/components/interactive/FadeIn';
 export default function BeforeAfterBento() {
   return (
     // Changed bg-navy-950 to bg-slate-50 for high contrast breathing room
-    <section className="section-padding bg-slate-50 relative overflow-hidden">
+    <section className="py-14 md:py-20 bg-slate-50 relative overflow-hidden">
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-blue-500/5 rounded-full blur-[120px] pointer-events-none" />
       
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <SectionHeader
           badge="Avant / Après"
           title="Votre image en ligne peut tout changer"
-          subtitle="Voici pourquoi vos clients potentiels fuient aujourd'hui, et comment nous allons inverser la tendance demain."
+          subtitle="Aujourd’hui, beaucoup de clients cherchent un commerce sur Google avant de se déplacer. Voici ce qui les fait partir — et comment on y remédie."
           theme="light"
         />
 
-        <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 mt-16 max-w-7xl mx-auto">
+        <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 mt-10 max-w-7xl mx-auto">
           
           {/* Avant */}
           <div>

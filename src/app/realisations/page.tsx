@@ -2,27 +2,23 @@
 
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { AlertCircle } from 'lucide-react';
+import { AlertCircle, ArrowRight } from 'lucide-react';
 import ConceptModal, { type ConceptData } from '@/components/interactive/ConceptModal';
 import CtaFinal from '@/components/sections/CtaFinal';
 import Button from '@/components/ui/Button';
 
-// ─── Toutes les couleurs sont déclarées ici en VALEURS STATIQUES (hex) ────────
-// Tailwind ne peut PAS générer de classes dynamiques depuis des props.
-// → Les gradients sont appliqués via style={{ background: ... }}
-// → Les couleurs de texte sont dans une map statique
-
+// ─── Données concepts ─────────────────────────────────────────────────────────
 export const concepts: ConceptData[] = [
   {
     id: 'restaurant',
     emoji: '🍽️',
     title: 'Bistrot de Pays',
     sector: 'Restaurant & Brasserie',
-    sectorColor: '#b45309',          // amber-700
-    gradientFrom: '#92400e',         // amber-800
-    gradientTo: '#c2410c',           // orange-700
+    sectorColor: '#b45309',
+    gradientFrom: '#92400e',
+    gradientTo: '#c2410c',
     description:
-      'Design chaud et appétissant, centré sur la photographie culinaire et l\'ambiance locale. Typographie classique et tons terreux pour inspirer confiance et donner envie.',
+      'Un site pour afficher votre menu, vos horaires, votre adresse, vos photos et faciliter les réservations. Design chaud et appétissant, pensé pour donner envie de venir.',
     goals: [
       'Convertir les visiteurs en réservations directes',
       'Présenter le menu et les spécialités du moment',
@@ -51,11 +47,11 @@ export const concepts: ConceptData[] = [
     emoji: '🔧',
     title: 'Mécanique Express',
     sector: 'Garage & Auto',
-    sectorColor: '#475569',          // slate-600
-    gradientFrom: '#334155',         // slate-700
-    gradientTo: '#0f172a',           // slate-900
+    sectorColor: '#475569',
+    gradientFrom: '#334155',
+    gradientTo: '#0f172a',
     description:
-      'Design robuste et rassurant. Palette contrastée (anthracite/blanc/bleu) pour évoquer le professionnalisme mécanique. Centré sur la rapidité d\'action.',
+      'Un site pour présenter vos prestations, recevoir des demandes de devis et permettre aux clients de vous appeler rapidement. Design rassurant et professionnel.',
     goals: [
       'Générer des appels et demandes de devis',
       'Rassurer sur les compétences et certifications',
@@ -83,11 +79,11 @@ export const concepts: ConceptData[] = [
     emoji: '✂️',
     title: 'L\'Atelier Beauté',
     sector: 'Salon de Coiffure',
-    sectorColor: '#e11d48',          // rose-600
-    gradientFrom: '#fb7185',         // rose-400
-    gradientTo: '#db2777',           // pink-600
+    sectorColor: '#e11d48',
+    gradientFrom: '#fb7185',
+    gradientTo: '#db2777',
     description:
-      'Design épuré et élégant, axé sur le bien-être. Palette douce avec de nombreux espaces blancs et une typographie fine pour évoquer le soin et la détente.',
+      'Un site pour présenter vos prestations, vos tarifs, vos horaires et faciliter la prise de rendez-vous. Design épuré et élégant, centré sur le bien-être.',
     goals: [
       'Simplifier la prise de rendez-vous',
       'Présenter les prestations et les tarifs clairement',
@@ -115,11 +111,11 @@ export const concepts: ConceptData[] = [
     emoji: '🏗️',
     title: 'Rénovation Pro',
     sector: 'Artisan & BTP',
-    sectorColor: '#c2410c',          // orange-700
-    gradientFrom: '#ea580c',         // orange-600
-    gradientTo: '#b45309',           // amber-700
+    sectorColor: '#c2410c',
+    gradientFrom: '#ea580c',
+    gradientTo: '#b45309',
     description:
-      'Design sérieux, structuré et fiable. Mise en avant des réalisations concrètes, des certifications et de la zone d\'intervention pour maximiser la confiance.',
+      'Un site pour montrer vos réalisations, expliquer vos services et recevoir des demandes de devis. Design sérieux et fiable, centré sur la confiance.',
     goals: [
       'Générer des demandes de devis qualifiées',
       'Prouver l\'expertise par les réalisations photos',
@@ -147,11 +143,11 @@ export const concepts: ConceptData[] = [
     emoji: '🍺',
     title: 'Le Nocturne',
     sector: 'Bar & Soirées',
-    sectorColor: '#7c3aed',          // violet-700
-    gradientFrom: '#6d28d9',         // violet-700
-    gradientTo: '#4c1d95',           // violet-900
+    sectorColor: '#7c3aed',
+    gradientFrom: '#6d28d9',
+    gradientTo: '#4c1d95',
     description:
-      'Design immersif et festif. Fond sombre maîtrisé, accents vibrants et animations pour retranscrire l\'ambiance et attirer pour les soirées événements.',
+      'Un site pour communiquer sur vos événements, partager votre ambiance et présenter votre carte. Design immersif et festif, fait pour attirer.',
     goals: [
       'Communiquer sur les événements et soirées',
       'Partager l\'ambiance visuellement',
@@ -178,11 +174,11 @@ export const concepts: ConceptData[] = [
     emoji: '⛺',
     title: 'Les Pins Verts',
     sector: 'Camping & Plein Air',
-    sectorColor: '#059669',          // emerald-600
-    gradientFrom: '#059669',         // emerald-600
-    gradientTo: '#0d9488',           // teal-600
+    sectorColor: '#059669',
+    gradientFrom: '#059669',
+    gradientTo: '#0d9488',
     description:
-      'Design naturel, familial et accueillant. Couleurs vertes et tons bois, large espace pour la photographie de paysage et les activités.',
+      'Un site pour augmenter vos réservations directes, présenter votre domaine et répondre aux questions fréquentes. Design naturel et accueillant.',
     goals: [
       'Augmenter les réservations directes',
       'Présenter le domaine et ses équipements',
@@ -207,7 +203,7 @@ export const concepts: ConceptData[] = [
   },
 ];
 
-// ─── Carte concept ────────────────────────────────────────────────────────────
+// ─── Carte concept ─────────────────────────────────────────────────────────────
 function ConceptCard({
   concept,
   onClick,
@@ -216,19 +212,18 @@ function ConceptCard({
   onClick: () => void;
 }) {
   const [hovered, setHovered] = useState(false);
-
   const gradient = `linear-gradient(135deg, ${concept.gradientFrom} 0%, ${concept.gradientTo} 100%)`;
 
   return (
-    <button
-      onClick={onClick}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-      className="w-full text-left group rounded-3xl overflow-hidden bg-white border border-slate-200 hover:border-slate-300 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 flex flex-col"
-    >
-      {/* Zone colorée */}
-      <div className="relative aspect-video overflow-hidden">
-        {/* Gradient de fond — inline style pour garantir le rendu */}
+    <div className="w-full text-left rounded-3xl overflow-hidden bg-white border border-slate-200 hover:border-slate-300 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 flex flex-col">
+      {/* Zone colorée cliquable */}
+      <button
+        onClick={onClick}
+        onMouseEnter={() => setHovered(true)}
+        onMouseLeave={() => setHovered(false)}
+        className="relative aspect-video overflow-hidden w-full"
+        aria-label={`Voir le concept ${concept.title}`}
+      >
         <div
           className="absolute inset-0 transition-transform duration-500"
           style={{
@@ -236,13 +231,9 @@ function ConceptCard({
             transform: hovered ? 'scale(1.05)' : 'scale(1)',
           }}
         />
-
-        {/* Emoji centré */}
         <div className="absolute inset-0 flex items-center justify-center z-10">
           <span className="text-7xl filter drop-shadow-lg select-none">{concept.emoji}</span>
         </div>
-
-        {/* Hover overlay */}
         <AnimatePresence>
           {hovered && (
             <motion.div
@@ -266,10 +257,10 @@ function ConceptCard({
             </motion.div>
           )}
         </AnimatePresence>
-      </div>
+      </button>
 
       {/* Contenu texte */}
-      <div className="p-5 flex-grow">
+      <div className="p-5 flex flex-col flex-grow">
         <div
           className="text-xs font-bold uppercase tracking-wider mb-1.5"
           style={{ color: concept.sectorColor }}
@@ -277,34 +268,54 @@ function ConceptCard({
           {concept.sector}
         </div>
         <h3 className="text-lg font-bold text-slate-900 mb-1.5">{concept.title}</h3>
-        <p className="text-sm text-slate-500 line-clamp-2">{concept.description}</p>
+        <p className="text-sm text-slate-500 line-clamp-2 mb-4 flex-grow">{concept.description}</p>
+
+        {/* CTA inline card */}
+        <div className="flex gap-2 flex-wrap">
+          <button
+            onClick={onClick}
+            className="text-xs font-semibold text-blue-600 hover:text-blue-700 border border-blue-200 hover:border-blue-400 rounded-lg px-3 py-1.5 transition-colors"
+          >
+            Voir le concept
+          </button>
+          <a
+            href="/contact"
+            className="text-xs font-semibold text-white bg-blue-600 hover:bg-blue-700 rounded-lg px-3 py-1.5 transition-colors flex items-center gap-1"
+          >
+            Créer un site similaire
+            <ArrowRight size={12} />
+          </a>
+        </div>
       </div>
-    </button>
+    </div>
   );
 }
 
-// ─── Page principale ──────────────────────────────────────────────────────────
+// ─── Page principale ───────────────────────────────────────────────────────────
 export default function RealisationsPage() {
   const [selectedConcept, setSelectedConcept] = useState<ConceptData | null>(null);
 
   return (
     <div className="bg-white min-h-screen">
       {/* Header */}
-      <div className="pt-32 pb-16 bg-gradient-to-b from-slate-50 to-white border-b border-slate-100">
+      <div className="pt-28 pb-10 bg-gradient-to-b from-slate-50 to-white border-b border-slate-100">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl text-center">
-          <h1 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4 font-heading">
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 mb-4 text-sm font-medium text-blue-700 bg-blue-50 border border-blue-200 rounded-full">
+            Concepts de sites vitrines
+          </div>
+          <h1 className="text-4xl md:text-5xl font-bold text-slate-900 mb-3 font-heading">
             Réalisations & Concepts
           </h1>
-          <p className="text-lg text-slate-600 mb-8 max-w-2xl mx-auto">
-            Explorez nos directions visuelles par secteur. Cliquez sur un concept pour voir en détail les objectifs, fonctionnalités et palette de couleurs.
+          <p className="text-lg text-slate-600 mb-6 max-w-2xl mx-auto">
+            Voici des exemples de sites que nous pouvons créer selon votre secteur. Cliquez sur un concept pour voir les fonctionnalités, les couleurs et ce que votre site pourrait offrir.
           </p>
 
-          {/* Disclaimer */}
+          {/* Disclaimer transparent */}
           <div className="inline-flex items-start gap-3 bg-blue-50 border border-blue-100 rounded-2xl p-4 text-left max-w-2xl">
             <AlertCircle className="text-blue-500 shrink-0 mt-0.5" size={18} />
             <p className="text-sm text-blue-900">
               <strong>Transparence :</strong> Ces exemples sont des{' '}
-              <strong>concepts visuels imaginés</strong> pour présenter différentes directions possibles.
+              <strong>concepts visuels imaginés</strong> pour montrer ce que nous pouvons créer selon votre secteur.
               Ils ne représentent pas encore des clients réels. Nos premières réalisations clients seront ajoutées prochainement.
             </p>
           </div>
@@ -312,9 +323,9 @@ export default function RealisationsPage() {
       </div>
 
       {/* Grille des concepts */}
-      <section className="py-20 bg-white">
+      <section className="py-12 bg-white">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl">
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {concepts.map((concept) => (
               <ConceptCard
                 key={concept.id}
@@ -324,13 +335,13 @@ export default function RealisationsPage() {
             ))}
           </div>
 
-          {/* CTA bas de page */}
-          <div className="text-center mt-16 bg-slate-50 rounded-3xl p-10 border border-slate-200">
-            <h2 className="text-2xl font-bold text-slate-900 mb-3 font-heading">
-              Votre activité n&apos;est pas listée ?
+          {/* CTA bas de grille */}
+          <div className="text-center mt-12 bg-slate-50 rounded-3xl p-8 border border-slate-200">
+            <h2 className="text-2xl font-bold text-slate-900 mb-2 font-heading">
+              Votre secteur n&apos;est pas listé ?
             </h2>
-            <p className="text-slate-600 mb-6 max-w-lg mx-auto">
-              Nous créons des sites pour tous types de commerces locaux. Contactez-nous pour discuter de votre projet spécifique.
+            <p className="text-slate-600 mb-5 max-w-lg mx-auto">
+              Boulangerie, pharmacie, librairie, cabinet médical, hôtel… Nous créons des sites pour tous types de commerces locaux. Contactez-nous pour parler de votre projet.
             </p>
             <Button href="/contact">Discuter de mon projet</Button>
           </div>

@@ -9,20 +9,20 @@ import FadeIn from '@/components/interactive/FadeIn';
 
 export default function PremiumOffers() {
   return (
-    <section className="section-padding bg-slate-50 relative overflow-hidden">
+    <section className="py-14 md:py-20 bg-slate-50 relative overflow-hidden">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <SectionHeader
           badge="Tarifs & Packs"
-          title="Des solutions adaptées à votre budget"
-          subtitle="Pas de surprise, pas d'abonnement caché. Vous savez exactement ce que vous payez et pourquoi."
+          title="Des formules claires, sans surprise"
+          subtitle="Pas d’abonnement caché, pas de contrat forcé. Vous savez exactement ce que vous payez et ce que vous obtenez. Votre site vous appartient."
           theme="light"
         />
 
         {/* Info Banner */}
-        <div className="max-w-2xl mx-auto mt-8 mb-16 bg-blue-50 border border-blue-100 rounded-xl p-4 flex items-start gap-3">
+        <div className="max-w-2xl mx-auto mt-6 mb-8 bg-blue-50 border border-blue-100 rounded-xl p-4 flex items-start gap-3">
            <Info className="text-blue-600 shrink-0 mt-0.5" size={20} />
            <p className="text-sm text-blue-900 leading-relaxed">
-             <strong>Transparence totale :</strong> Pas d'abonnement mensuel imposé par AVIX. Vous gardez tous vos accès et votre site vous appartient intégralement.
+             <strong>Transparence totale :</strong> Pas d’abonnement mensuel imposé par AVIX. Vous gardez tous vos accès et votre site vous appartient intégralement.
            </p>
         </div>
 
