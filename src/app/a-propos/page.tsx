@@ -81,7 +81,7 @@ export default function AProposPage() {
               <h2 className="text-3xl font-bold text-slate-900 mb-6 font-heading">Notre histoire</h2>
               <div className="space-y-4 text-slate-600 text-lg leading-relaxed">
                 <p>
-                  AVIX est une jeune entreprise locale née en Vendée, fondée par des profils issus de l&apos;informatique et du web.
+                  AVIX est un projet local né en Vendée, pensé pour aider les commerces à améliorer leur présence digitale.
                 </p>
                 <p>
                   En observant les commerces autour de nous, nous avons fait un constat simple : beaucoup de professionnels
@@ -97,15 +97,12 @@ export default function AProposPage() {
 
             {/* Visual quote */}
             <div className="bg-slate-900 rounded-3xl p-8 text-white">
-              <div className="text-5xl text-blue-400 font-serif mb-4">"</div>
               <blockquote className="text-xl font-heading font-medium italic text-white leading-relaxed">
-                Une présence digitale claire, professionnelle et pensée pour convertir vos clients locaux.
+                « Une présence digitale claire, professionnelle et pensée pour convertir vos clients locaux. »
               </blockquote>
               <div className="mt-6 flex items-center gap-3">
-                <div className="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center text-white font-bold text-sm">A</div>
                 <div>
-                  <div className="font-bold text-white text-sm">L&apos;équipe AVIX</div>
-                  <div className="text-slate-400 text-xs">Vendée, France</div>
+                  <div className="font-bold text-white text-sm">— L&apos;équipe AVIX</div>
                 </div>
               </div>
             </div>

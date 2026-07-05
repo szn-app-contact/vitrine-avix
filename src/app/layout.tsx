@@ -25,7 +25,7 @@ export const metadata: Metadata = {
   },
 
   description:
-    "AVIX crée des sites vitrines professionnels et optimise la fiche Google des restaurants, garages, artisans et commerces locaux en Vendée (85), Loire-Atlantique (44), Charente-Maritime (17) et Maine-et-Loire (49). Devis gratuit.",
+    "AVIX accompagne les commerces locaux en Vendée, Loire-Atlantique, Charente-Maritime et Maine-et-Loire, avec une priorité autour de la Vendée. Nous créons des sites vitrines professionnels et optimisons votre visibilité locale. Devis gratuit.",
 
   keywords: [
     // Services

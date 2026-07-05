@@ -135,18 +135,7 @@ export default function NfcAvisGooglePage() {
             </p>
           </div>
 
-          {/* Image 3 étapes */}
-          <div className="rounded-2xl overflow-hidden border border-slate-100 shadow-md bg-slate-50">
-            <Image
-              src="/images/nfc/how-it-works/nfc-how-it-works-steps.jpg"
-              alt="3 étapes : placer la plaque, approcher le téléphone, la page d'avis Google s'ouvre"
-              width={1200}
-              height={500}
-              className="w-full h-auto object-contain"
-            />
-          </div>
-
-          {/* Texte complémentaire sous l'image */}
+          {/* Étapes textuelles */}
           <div className="grid sm:grid-cols-3 gap-6 mt-8 text-center">
             {[
               { num: 1, title: 'Placer la plaque', desc: 'Posez la plaque sur votre comptoir, caisse ou table.' },
@@ -190,11 +179,11 @@ export default function NfcAvisGooglePage() {
                 Un geste simple pour faciliter les avis authentiques
               </h2>
               <p className="text-slate-600 mb-5 leading-relaxed">
-                La plaque NFC se pose à plat sur votre comptoir, à côté de votre caisse ou sur vos tables. Quand un client satisfait approche son téléphone, votre page d&apos;avis Google s&apos;ouvre directement. Il peut laisser un avis en moins de 30 secondes, sans chercher votre établissement.
+                La plaque NFC se pose à plat sur votre comptoir, à côté de votre caisse ou sur vos tables. Quand un client satisfait approche son téléphone, votre page d&apos;avis Google s&apos;ouvre directement. Il peut laisser un avis plus rapidement, sans rechercher votre établissement sur Google.
               </p>
               <ul className="space-y-3 mb-6">
                 {[
-                  'Compatible avec 98% des smartphones (iPhone et Android)',
+                  'Compatible avec la grande majorité des smartphones récents',
                   'Aucune application à installer pour vos clients',
                   'Installation et configuration incluses sur place',
                   'Fonctionne aussi bien à la caisse, sur les tables ou à l\'entrée',
@@ -233,46 +222,29 @@ export default function NfcAvisGooglePage() {
                   </li>
                 ))}
               </ul>
-
-              {/* Image produit vue de dessus */}
-              <div className="rounded-2xl overflow-hidden border border-slate-100 shadow-sm mt-4">
-                <Image
-                  src="/images/nfc/pack-avis/nfc-plate-product-top.jpg"
-                  alt="Plaque NFC AVIX — vue de dessus, fond blanc"
-                  width={560}
-                  height={560}
-                  className="w-full h-auto object-contain bg-white"
-                />
-              </div>
             </div>
 
-            {/* Prix + image produit premium */}
-            <div className="flex flex-col gap-6">
-              {/* Image produit avec téléphone + ondes */}
-              <div className="rounded-2xl overflow-hidden shadow-lg">
-                <Image
-                  src="/images/nfc/product/nfc-plate-product-stand.jpg"
-                  alt="Support NFC AVIX debout — laissez votre avis sur Google"
-                  width={560}
-                  height={400}
-                  className="w-full h-auto object-cover"
-                />
-              </div>
+            {/* Prix */}
+            <div className="flex flex-col gap-6 h-full justify-center">
 
               {/* Carte tarif */}
               <div className="bg-slate-50 border border-slate-200 rounded-3xl p-8 text-center shadow-sm">
                 <div className="w-14 h-14 bg-emerald-50 rounded-2xl flex items-center justify-center mx-auto mb-4">
                   <Zap className="text-emerald-500" size={28} />
                 </div>
-                <div className="text-5xl font-bold text-slate-900 mb-1">149 €</div>
-                <div className="text-slate-400 line-through text-lg mb-2">199 €</div>
-                <div className="text-emerald-600 text-sm font-medium mb-6">Prix de lancement</div>
+                <div className="flex items-baseline justify-center gap-2 mb-2">
+                  <span className="text-5xl font-bold text-slate-900">149 €</span>
+                  <span className="text-emerald-600 text-sm font-semibold tracking-wide uppercase">Prix de lancement</span>
+                </div>
+                <div className="text-slate-500 text-sm mb-6">
+                  <span className="line-through">199 €</span>
+                </div>
                 <Button href="/contact?projet=pack-avis-express" className="w-full justify-center mb-3">
                   Demander ce pack
                   <ArrowRight size={18} />
                 </Button>
                 <p className="text-xs text-slate-400">
-                  Paiement unique — installation sur place incluse
+                  Paiement unique — hors frais éventuels d&apos;hébergement
                 </p>
               </div>
             </div>
@@ -281,38 +253,7 @@ export default function NfcAvisGooglePage() {
         </div>
       </section>
 
-      {/* ── Vidéo démonstration ────────────────────────────────────────────────── */}
-      <section className="py-16 bg-slate-50">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl">
-          <div className="text-center mb-8">
-            <h2 className="text-2xl font-bold text-slate-900 mb-2 font-heading">
-              Voyez comment ça se passe en pratique
-            </h2>
-            <p className="text-slate-500 text-sm">
-              Démonstration réelle de la plaque NFC AVIX en situation.
-            </p>
-          </div>
 
-          <div className="rounded-2xl overflow-hidden shadow-lg border border-slate-200 bg-black">
-            <video
-              src="/images/nfc/video/nfc-demo-video.mp4"
-              poster="/images/nfc/context/nfc-plate-cafe-counter.jpg"
-              controls
-              playsInline
-              muted
-              loop
-              className="w-full h-auto max-h-[500px] object-contain"
-              aria-label="Démonstration de la plaque NFC AVIX — le client approche son téléphone et la page d'avis Google s'ouvre"
-            >
-              Votre navigateur ne prend pas en charge la lecture vidéo.
-            </video>
-          </div>
-
-          <p className="text-center text-xs text-slate-400 mt-3">
-            Les avis doivent toujours provenir de vrais clients satisfaits, laissés librement et sans contrepartie.
-          </p>
-        </div>
-      </section>
 
       {/* ── Transparence ────────────────────────────────────────────────────────── */}
       <section className="py-14 bg-white">

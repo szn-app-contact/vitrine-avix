@@ -46,7 +46,7 @@ export default function Footer() {
           <div className="sm:col-span-2 lg:col-span-1">
             <Logo variant="white" className="mb-5" />
             <p className="text-sm text-slate-400 leading-relaxed max-w-xs mb-6">
-              Nous aidons les commerces locaux à améliorer leur présence en ligne avec des sites vitrines modernes et des solutions NFC simples.
+              AVIX accompagne les commerces locaux en Vendée, Loire-Atlantique, Charente-Maritime et Maine-et-Loire, avec une priorité autour de la Vendée.
             </p>
             <div className="flex flex-col gap-3">
               <a

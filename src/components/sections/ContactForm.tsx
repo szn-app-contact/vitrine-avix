@@ -253,8 +253,8 @@ export default function ContactForm() {
             </>
           )}
         </Button>
-        <p className="text-xs text-center text-slate-500 mt-3">
-          Vos données sont confidentielles et ne seront jamais partagées.
+        <p className="text-xs text-center text-slate-500 mt-3 px-4">
+          * Les informations recueillies sont nécessaires pour traiter votre demande. Elles restent strictement confidentielles et ne seront jamais cédées à des tiers, conformément au RGPD.
         </p>
       </div>
     </form>

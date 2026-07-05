@@ -42,7 +42,7 @@ export default function BeforeAfterBento() {
                 <BentoGridItem
                   className="bg-white border-slate-200 hover:border-orange-200 shadow-sm hover:shadow-md group"
                   title={<span className="text-slate-800 group-hover:text-orange-500 transition-colors">Fiche Google négligée</span>}
-                  description="Horaires erronés, peu de photos, ou pire : des avis négatifs très visibles sans vrais avis pour compenser."
+                  description="Horaires erronés, peu de photos, ou une fiche Google peu travaillée qui donne une mauvaise première impression, surtout si les informations sont incomplètes ou les avis peu nombreux."
                   icon={<AlertCircle className="text-slate-400 group-hover:text-orange-500 mb-2 transition-colors" />}
                 />
               </FadeIn>
@@ -77,7 +77,7 @@ export default function BeforeAfterBento() {
                 <BentoGridItem
                   className="bg-white border-emerald-100 hover:border-emerald-300 shadow-md hover:shadow-lg group"
                   title={<span className="text-navy-900 group-hover:text-emerald-600 transition-colors">Un parcours avis simplifié</span>}
-                  description="Grâce au support NFC, un simple scan suffit pour qu'un client satisfait accède à votre page d'avis."
+                  description="Grâce au support NFC, le client approche simplement son téléphone et accède directement à votre page d'avis."
                   icon={<Smartphone className="text-emerald-500 mb-2" />}
                 />
               </FadeIn>

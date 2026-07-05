@@ -39,7 +39,7 @@ export default function PremiumOffers() {
                 {offer.isPopular && (
                   <div className="absolute top-0 right-8 -translate-y-1/2">
                     <span className="bg-blue-600 text-white text-xs font-bold px-4 py-1.5 rounded-full shadow-lg">
-                      Le plus demandé
+                      Pack complet
                     </span>
                   </div>
                 )}
@@ -50,11 +50,19 @@ export default function PremiumOffers() {
                 </div>
 
                 <div className="mb-8 relative z-10">
-                  <div className="flex items-baseline gap-2 mb-2">
-                    <span className="text-5xl font-bold text-navy-950">{offer.pricePromo}€</span>
-                    <span className="text-slate-500 line-through text-lg">{offer.priceNormal}€</span>
+                  <div className="flex flex-col gap-1 mb-3">
+                    <div className="flex items-baseline gap-2">
+                      <span className="text-4xl md:text-5xl font-bold text-navy-950">{offer.pricePromo} €</span>
+                      <span className="text-emerald-600 text-sm font-semibold tracking-wide uppercase">Prix de lancement</span>
+                    </div>
+                    <div className="text-slate-500 text-sm">
+                      <span className="line-through">{offer.priceNormal} €</span>
+                      {offer.id === 'pack-visibilite-locale' ? ' selon le projet' : ''}
+                    </div>
                   </div>
-                  <p className="text-xs text-slate-400">Paiement unique, sans abonnement AVIX</p>
+                  <p className="text-xs text-slate-400 mt-2">
+                    Paiement unique. Hors frais éventuels de nom de domaine et d&apos;hébergement, réglés directement par le client.
+                  </p>
                 </div>
 
                 <div className="mb-8 relative z-10">

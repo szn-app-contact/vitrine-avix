@@ -261,11 +261,16 @@ function ConceptCard({
 
       {/* Contenu texte */}
       <div className="p-5 flex flex-col flex-grow">
-        <div
-          className="text-xs font-bold uppercase tracking-wider mb-1.5"
-          style={{ color: concept.sectorColor }}
-        >
-          {concept.sector}
+        <div className="flex items-center gap-2 mb-1.5">
+          <div
+            className="text-xs font-bold uppercase tracking-wider"
+            style={{ color: concept.sectorColor }}
+          >
+            {concept.sector}
+          </div>
+          <div className="bg-slate-100 text-slate-500 text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-sm">
+            Concept fictif
+          </div>
         </div>
         <h3 className="text-lg font-bold text-slate-900 mb-1.5">{concept.title}</h3>
         <p className="text-sm text-slate-500 line-clamp-2 mb-4 flex-grow">{concept.description}</p>

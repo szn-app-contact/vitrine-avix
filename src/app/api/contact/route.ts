@@ -181,7 +181,7 @@ function buildConfirmationEmail(name: string): string {
 
   <div style="background:linear-gradient(135deg,#1d4ed8 0%,#0891b2 100%);padding:32px;text-align:center;">
     <div style="font-size:30px;font-weight:800;color:#fff;letter-spacing:-1px;">AVIX</div>
-    <div style="margin:6px 0 0;color:rgba(255,255,255,0.8);font-size:13px;">Visibilité locale · Vendée &amp; alentours</div>
+    <div style="margin:6px 0 0;color:rgba(255,255,255,0.8);font-size:13px;">Visibilité locale · Vendée, Loire-Atlantique, Charente-Maritime, Maine-et-Loire</div>
   </div>
 
   <div style="padding:40px 32px;">
@@ -197,11 +197,11 @@ function buildConfirmationEmail(name: string): string {
       <div style="color:#0c4a6e;font-size:14px;">📞 <a href="tel:+33778071403" style="color:#1d4ed8;">07 78 07 14 03</a></div>
       <div style="color:#0c4a6e;font-size:14px;margin-top:4px;">📧 <a href="mailto:avix.digital.contact@gmail.com" style="color:#1d4ed8;">avix.digital.contact@gmail.com</a></div>
     </div>
-    <p style="margin:0;color:#94a3b8;font-size:13px;">Bonne journée,<br><strong style="color:#0f172a;">L'équipe AVIX</strong></p>
+    <p style="margin:0;color:#94a3b8;font-size:13px;">Bonne journée,<br><strong style="color:#0f172a;">AVIX</strong></p>
   </div>
 
   <div style="background:#f8fafc;border-top:1px solid #e2e8f0;padding:14px 32px;text-align:center;">
-    <p style="margin:0;font-size:11px;color:#94a3b8;">AVIX · Vendée 85 · <a href="https://www.avix-digital.com" style="color:#1d4ed8;">avix-digital.com</a></p>
+    <p style="margin:0;font-size:11px;color:#94a3b8;">AVIX · Priorité Vendée 85 · <a href="https://www.avix-digital.com" style="color:#1d4ed8;">avix-digital.com</a></p>
   </div>
 
 </div>
