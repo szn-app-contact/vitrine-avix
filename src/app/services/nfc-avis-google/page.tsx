@@ -1,7 +1,8 @@
 import type { Metadata } from 'next';
+import Image from 'next/image';
 import Link from 'next/link';
 import {
-  CheckCircle2, ArrowRight, Smartphone, MapPin, Star,
+  CheckCircle2, ArrowRight,
   Wifi, Shield, AlertCircle, Zap
 } from 'lucide-react';
 import Button from '@/components/ui/Button';
@@ -26,33 +27,6 @@ export const metadata: Metadata = {
     url: 'https://avix-digital.com/services/nfc-avis-google',
   },
 };
-
-const steps = [
-  {
-    num: 1,
-    icon: '📍',
-    title: 'Installation sur place',
-    desc: 'Nous venons installer et programmer votre support NFC directement dans votre établissement. Configuration et test inclus.',
-  },
-  {
-    num: 2,
-    icon: '📱',
-    title: 'Le client approche son téléphone',
-    desc: 'Compatible avec 98% des smartphones modernes (iPhone et Android). Aucune application à télécharger.',
-  },
-  {
-    num: 3,
-    icon: '🌐',
-    title: 'La page d\'avis s\'ouvre directement',
-    desc: 'Le téléphone ouvre instantanément la page d\'avis Google de votre établissement. Rien à rechercher.',
-  },
-  {
-    num: 4,
-    icon: '⭐',
-    title: 'Le client laisse son avis',
-    desc: 'En moins de 30 secondes, votre client peut laisser un avis authentique depuis son compte Google.',
-  },
-];
 
 const inclus = [
   'Programmation du support NFC à votre lien d\'avis Google',
@@ -86,79 +60,16 @@ const faq = [
   },
 ];
 
-// NFC Visual CSS Component
-function NfcVisual() {
-  return (
-    <div className="relative flex items-center justify-center gap-8 py-8">
-      {/* Phone */}
-      <div className="relative">
-        <div className="w-32 bg-slate-800 rounded-[2rem] p-2 shadow-2xl">
-          <div className="bg-white rounded-[1.5rem] overflow-hidden">
-            <div className="bg-slate-100 h-5 flex items-center justify-center">
-              <div className="w-8 h-1.5 bg-slate-300 rounded" />
-            </div>
-            <div className="p-3 bg-white">
-              {/* Google Maps-like review screen */}
-              <div className="flex items-center gap-2 mb-2">
-                <div className="w-6 h-6 bg-red-500 rounded-full flex items-center justify-center">
-                  <MapPin size={12} className="text-white" />
-                </div>
-                <div>
-                  <div className="w-12 h-1.5 bg-slate-800 rounded mb-1" />
-                  <div className="w-8 h-1 bg-slate-300 rounded" />
-                </div>
-              </div>
-              <div className="flex gap-0.5 mb-3">
-                {[1,2,3,4,5].map(i => (
-                  <Star key={i} size={10} className="fill-amber-400 text-amber-400" />
-                ))}
-              </div>
-              <div className="space-y-1 mb-3">
-                <div className="w-full h-1.5 bg-slate-100 rounded" />
-                <div className="w-3/4 h-1.5 bg-slate-100 rounded" />
-              </div>
-              <div className="bg-blue-600 rounded-lg h-6 flex items-center justify-center">
-                <div className="w-10 h-1.5 bg-white/70 rounded" />
-              </div>
-            </div>
-          </div>
-        </div>
-        {/* NFC waves */}
-        <div className="absolute -right-4 top-1/2 -translate-y-1/2 flex flex-col items-center gap-1">
-          {[1,2,3].map(i => (
-            <div
-              key={i}
-              className="border-r-2 border-t-2 border-blue-400 rounded-tr-full opacity-80"
-              style={{ width: `${i * 10}px`, height: `${i * 10}px` }}
-            />
-          ))}
-        </div>
-      </div>
-
-      {/* NFC Card/Stand */}
-      <div className="flex flex-col items-center">
-        <div className="w-28 h-36 bg-white border-2 border-slate-800 rounded-2xl shadow-xl flex flex-col items-center justify-center relative overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-br from-blue-600 to-blue-800" />
-          <div className="relative z-10 flex flex-col items-center gap-2">
-            <div className="text-white font-bold text-xl tracking-widest">AVIX</div>
-            <Wifi className="text-white/80 rotate-90" size={28} />
-            <div className="text-white/70 text-xs text-center px-2">Laissez un avis !</div>
-          </div>
-        </div>
-        <div className="text-xs text-slate-500 mt-2 font-medium">Support NFC</div>
-      </div>
-    </div>
-  );
-}
-
 export default function NfcAvisGooglePage() {
   return (
     <div className="bg-white min-h-screen">
 
-      {/* Hero */}
-      <section className="pt-32 pb-20 bg-gradient-to-b from-slate-50 to-white relative overflow-hidden">
+      {/* ── Hero ──────────────────────────────────────────────────────────────── */}
+      <section className="pt-28 pb-16 bg-gradient-to-b from-slate-50 to-white relative overflow-hidden">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
+
+            {/* Texte */}
             <div>
               <Link
                 href="/services"
@@ -174,10 +85,10 @@ export default function NfcAvisGooglePage() {
                 Vos clients satisfaits méritent de pouvoir vous le dire facilement
               </h1>
               <p className="text-lg text-slate-600 mb-6 leading-relaxed">
-                Le support NFC AVIX facilite l&apos;accès à votre page d&apos;avis Google pour vos clients satisfaits. En approchant simplement leur téléphone, la page s&apos;ouvre instantanément.
+                Une petite plaque posée sur votre comptoir. Quand un client approche son téléphone, votre page d&apos;avis Google s&apos;ouvre automatiquement. Simple, rapide, efficace.
               </p>
 
-              {/* Mention légale obligatoire */}
+              {/* Engagement légal */}
               <div className="flex items-start gap-3 bg-amber-50 border border-amber-200 rounded-xl p-4 mb-8">
                 <AlertCircle className="text-amber-500 shrink-0 mt-0.5" size={18} />
                 <p className="text-sm text-amber-900">
@@ -187,7 +98,7 @@ export default function NfcAvisGooglePage() {
 
               <div className="flex flex-col sm:flex-row gap-4">
                 <Button href="/contact?projet=nfc" size="lg">
-                  Découvrir le Pack Avis Express
+                  Installer une plaque dans mon commerce
                   <ArrowRight size={18} />
                 </Button>
                 <Button href="/offres" variant="outline" size="lg">
@@ -196,59 +107,125 @@ export default function NfcAvisGooglePage() {
               </div>
             </div>
 
-            {/* Visual */}
-            <div className="flex items-center justify-center">
-              <div className="bg-slate-50 rounded-3xl border border-slate-200 p-8 shadow-lg">
-                <NfcVisual />
-                <p className="text-center text-sm text-slate-500 mt-2">
-                  Démonstration du parcours client
-                </p>
-              </div>
+            {/* Image hero — plaque + téléphone + ondes NFC */}
+            <div className="relative rounded-3xl overflow-hidden shadow-2xl">
+              <Image
+                src="/images/nfc/hero/nfc-plate-hero-waves.jpg"
+                alt="Plaque NFC AVIX avec téléphone affichant la page d'avis Google"
+                width={700}
+                height={500}
+                className="w-full h-auto object-cover"
+                priority
+              />
             </div>
+
           </div>
         </div>
       </section>
 
-      {/* Comment ça marche — 4 étapes */}
-      <section className="py-20 bg-white">
+      {/* ── Comment ça marche — image 3 étapes ───────────────────────────────── */}
+      <section className="py-16 bg-white">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl">
-          <div className="text-center max-w-2xl mx-auto mb-14">
-            <h2 className="text-3xl font-bold text-slate-900 mb-4 font-heading">
+          <div className="text-center max-w-2xl mx-auto mb-10">
+            <h2 className="text-3xl font-bold text-slate-900 mb-3 font-heading">
               Comment ça fonctionne ?
             </h2>
             <p className="text-slate-600">
-              Quatre étapes simples, de l&apos;installation à l&apos;avis.
+              Trois gestes simples. Aucune application à télécharger, aucune manipulation technique.
             </p>
           </div>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {steps.map((step, i) => (
-              <div key={step.num} className="relative">
-                {i < steps.length - 1 && (
-                  <div className="hidden lg:block absolute top-8 left-full w-full h-0.5 bg-slate-200 z-0" style={{width: 'calc(100% - 4rem)'}} />
-                )}
-                <div className="bg-white border border-slate-200 rounded-2xl p-6 relative z-10 hover:border-blue-200 hover:shadow-md transition-all text-center">
-                  <div className="text-4xl mb-3">{step.icon}</div>
-                  <div className="w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center text-sm font-bold mx-auto mb-3">
-                    {step.num}
-                  </div>
-                  <h3 className="font-bold text-slate-900 mb-2 text-sm">{step.title}</h3>
-                  <p className="text-xs text-slate-600 leading-relaxed">{step.desc}</p>
+
+          {/* Image 3 étapes */}
+          <div className="rounded-2xl overflow-hidden border border-slate-100 shadow-md bg-slate-50">
+            <Image
+              src="/images/nfc/how-it-works/nfc-how-it-works-steps.jpg"
+              alt="3 étapes : placer la plaque, approcher le téléphone, la page d'avis Google s'ouvre"
+              width={1200}
+              height={500}
+              className="w-full h-auto object-contain"
+            />
+          </div>
+
+          {/* Texte complémentaire sous l'image */}
+          <div className="grid sm:grid-cols-3 gap-6 mt-8 text-center">
+            {[
+              { num: 1, title: 'Placer la plaque', desc: 'Posez la plaque sur votre comptoir, caisse ou table.' },
+              { num: 2, title: 'Approcher le téléphone', desc: 'Le client approche son smartphone NFC — aucune appli nécessaire.' },
+              { num: 3, title: 'La page d\'avis s\'ouvre', desc: 'La page d\'avis Google de votre établissement s\'ouvre instantanément.' },
+            ].map((step) => (
+              <div key={step.num} className="flex flex-col items-center">
+                <div className="w-10 h-10 rounded-full bg-blue-600 text-white font-bold flex items-center justify-center text-lg mb-3">
+                  {step.num}
                 </div>
+                <h3 className="font-bold text-slate-900 mb-1">{step.title}</h3>
+                <p className="text-sm text-slate-500">{step.desc}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Ce qui est inclus */}
-      <section className="py-20 bg-slate-50">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl">
+      {/* ── Dans votre commerce — image réelle comptoir ───────────────────────── */}
+      <section className="py-16 bg-slate-50">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl">
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+
+            {/* Image comptoir boutique */}
+            <div className="relative rounded-2xl overflow-hidden shadow-xl order-2 lg:order-1">
+              <Image
+                src="/images/nfc/context/nfc-plate-shop-counter.jpg"
+                alt="Client approchant son téléphone de la plaque NFC AVIX posée sur un comptoir de boutique"
+                width={700}
+                height={470}
+                className="w-full h-auto object-cover"
+              />
+            </div>
+
+            {/* Texte */}
+            <div className="order-1 lg:order-2">
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 mb-4 text-sm font-medium text-blue-700 bg-blue-50 border border-blue-200 rounded-full">
+                Dans votre commerce
+              </div>
+              <h2 className="text-3xl font-bold text-slate-900 mb-4 font-heading leading-tight">
+                Un geste simple pour faciliter les avis authentiques
+              </h2>
+              <p className="text-slate-600 mb-5 leading-relaxed">
+                La plaque NFC se pose à plat sur votre comptoir, à côté de votre caisse ou sur vos tables. Quand un client satisfait approche son téléphone, votre page d&apos;avis Google s&apos;ouvre directement. Il peut laisser un avis en moins de 30 secondes, sans chercher votre établissement.
+              </p>
+              <ul className="space-y-3 mb-6">
+                {[
+                  'Compatible avec 98% des smartphones (iPhone et Android)',
+                  'Aucune application à installer pour vos clients',
+                  'Installation et configuration incluses sur place',
+                  'Fonctionne aussi bien à la caisse, sur les tables ou à l\'entrée',
+                ].map((item) => (
+                  <li key={item} className="flex items-start gap-3">
+                    <CheckCircle2 className="text-emerald-500 shrink-0 mt-0.5" size={18} />
+                    <span className="text-slate-700 text-sm">{item}</span>
+                  </li>
+                ))}
+              </ul>
+              <Button href="/contact?projet=nfc">
+                Installer une plaque dans mon commerce
+                <ArrowRight size={16} />
+              </Button>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      {/* ── Pack Avis Express — produit + tarif ──────────────────────────────── */}
+      <section className="py-16 bg-white">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl">
           <div className="grid md:grid-cols-2 gap-10 items-center">
+
+            {/* Liste inclus */}
             <div>
               <h2 className="text-3xl font-bold text-slate-900 mb-5 font-heading">
                 Inclus dans le Pack Avis Express
               </h2>
-              <ul className="space-y-4">
+              <ul className="space-y-3 mb-6">
                 {inclus.map((item) => (
                   <li key={item} className="flex items-start gap-3">
                     <CheckCircle2 className="text-emerald-500 shrink-0 mt-0.5" size={20} />
@@ -256,28 +233,89 @@ export default function NfcAvisGooglePage() {
                   </li>
                 ))}
               </ul>
-            </div>
-            <div className="bg-white border border-slate-200 rounded-3xl p-8 text-center shadow-lg">
-              <div className="w-16 h-16 bg-emerald-50 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                <Zap className="text-emerald-500" size={32} />
+
+              {/* Image produit vue de dessus */}
+              <div className="rounded-2xl overflow-hidden border border-slate-100 shadow-sm mt-4">
+                <Image
+                  src="/images/nfc/pack-avis/nfc-plate-product-top.jpg"
+                  alt="Plaque NFC AVIX — vue de dessus, fond blanc"
+                  width={560}
+                  height={560}
+                  className="w-full h-auto object-contain bg-white"
+                />
               </div>
-              <div className="text-5xl font-bold text-slate-900 mb-1">149 €</div>
-              <div className="text-slate-400 line-through text-lg mb-2">199 €</div>
-              <div className="text-emerald-600 text-sm font-medium mb-6">Prix de lancement</div>
-              <Button href="/contact?projet=pack-avis-express" className="w-full justify-center mb-3">
-                Demander ce pack
-                <ArrowRight size={18} />
-              </Button>
-              <p className="text-xs text-slate-400">
-                Paiement unique — installation sur place incluse
-              </p>
             </div>
+
+            {/* Prix + image produit premium */}
+            <div className="flex flex-col gap-6">
+              {/* Image produit avec téléphone + ondes */}
+              <div className="rounded-2xl overflow-hidden shadow-lg">
+                <Image
+                  src="/images/nfc/product/nfc-plate-product-stand.jpg"
+                  alt="Support NFC AVIX debout — laissez votre avis sur Google"
+                  width={560}
+                  height={400}
+                  className="w-full h-auto object-cover"
+                />
+              </div>
+
+              {/* Carte tarif */}
+              <div className="bg-slate-50 border border-slate-200 rounded-3xl p-8 text-center shadow-sm">
+                <div className="w-14 h-14 bg-emerald-50 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                  <Zap className="text-emerald-500" size={28} />
+                </div>
+                <div className="text-5xl font-bold text-slate-900 mb-1">149 €</div>
+                <div className="text-slate-400 line-through text-lg mb-2">199 €</div>
+                <div className="text-emerald-600 text-sm font-medium mb-6">Prix de lancement</div>
+                <Button href="/contact?projet=pack-avis-express" className="w-full justify-center mb-3">
+                  Demander ce pack
+                  <ArrowRight size={18} />
+                </Button>
+                <p className="text-xs text-slate-400">
+                  Paiement unique — installation sur place incluse
+                </p>
+              </div>
+            </div>
+
           </div>
         </div>
       </section>
 
-      {/* Ce que le NFC ne garantit PAS */}
-      <section className="py-16 bg-white">
+      {/* ── Vidéo démonstration ────────────────────────────────────────────────── */}
+      <section className="py-16 bg-slate-50">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl">
+          <div className="text-center mb-8">
+            <h2 className="text-2xl font-bold text-slate-900 mb-2 font-heading">
+              Voyez comment ça se passe en pratique
+            </h2>
+            <p className="text-slate-500 text-sm">
+              Démonstration réelle de la plaque NFC AVIX en situation.
+            </p>
+          </div>
+
+          <div className="rounded-2xl overflow-hidden shadow-lg border border-slate-200 bg-black">
+            <video
+              src="/images/nfc/video/nfc-demo-video.mp4"
+              poster="/images/nfc/context/nfc-plate-cafe-counter.jpg"
+              controls
+              playsInline
+              muted
+              loop
+              className="w-full h-auto max-h-[500px] object-contain"
+              aria-label="Démonstration de la plaque NFC AVIX — le client approche son téléphone et la page d'avis Google s'ouvre"
+            >
+              Votre navigateur ne prend pas en charge la lecture vidéo.
+            </video>
+          </div>
+
+          <p className="text-center text-xs text-slate-400 mt-3">
+            Les avis doivent toujours provenir de vrais clients satisfaits, laissés librement et sans contrepartie.
+          </p>
+        </div>
+      </section>
+
+      {/* ── Transparence ────────────────────────────────────────────────────────── */}
+      <section className="py-14 bg-white">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-3xl">
           <div className="bg-slate-50 border border-slate-200 rounded-3xl p-8">
             <div className="flex items-center gap-3 mb-5">
@@ -291,17 +329,17 @@ export default function NfcAvisGooglePage() {
               Il ne garantit pas un nombre d&apos;avis précis, ni un classement Google, ni des avis 5 étoiles.
             </p>
             <p className="text-slate-600 text-sm leading-relaxed">
-              Chaque avis doit provenir d&apos;un vrai client, laissé librement et sans contrepartie. 
+              Chaque avis doit provenir d&apos;un vrai client, laissé librement et sans contrepartie.
               Notre rôle est de supprimer la barrière technique pour les clients qui veulent vous soutenir mais manquent de temps.
             </p>
           </div>
         </div>
       </section>
 
-      {/* FAQ */}
-      <section className="py-20 bg-slate-50">
+      {/* ── FAQ ─────────────────────────────────────────────────────────────────── */}
+      <section className="py-14 bg-slate-50">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-3xl">
-          <h2 className="text-3xl font-bold text-slate-900 mb-10 text-center font-heading">
+          <h2 className="text-3xl font-bold text-slate-900 mb-8 text-center font-heading">
             Questions fréquentes
           </h2>
           <div className="space-y-4">
