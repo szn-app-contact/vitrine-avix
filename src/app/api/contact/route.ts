@@ -201,7 +201,7 @@ function buildConfirmationEmail(name: string): string {
   </div>
 
   <div style="background:#f8fafc;border-top:1px solid #e2e8f0;padding:14px 32px;text-align:center;">
-    <p style="margin:0;font-size:11px;color:#94a3b8;">AVIX · Priorité Vendée 85 · <a href="https://www.avix-digital.com" style="color:#1d4ed8;">avix-digital.com</a></p>
+    <p style="margin:0;font-size:11px;color:#94a3b8;">AVIX · <a href="https://www.avix-digital.com" style="color:#1d4ed8;">avix-digital.com</a></p>
   </div>
 
 </div>

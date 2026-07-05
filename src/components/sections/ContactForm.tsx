@@ -254,7 +254,7 @@ export default function ContactForm() {
           )}
         </Button>
         <p className="text-xs text-center text-slate-500 mt-3 px-4">
-          * Les informations recueillies sont nécessaires pour traiter votre demande. Elles restent strictement confidentielles et ne seront jamais cédées à des tiers, conformément au RGPD.
+          * Les informations envoyées servent uniquement à répondre à votre demande. Elles ne sont pas revendues ni utilisées pour de la prospection externe.
         </p>
       </div>
     </form>

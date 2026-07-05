@@ -53,11 +53,10 @@ export default function PremiumOffers() {
                   <div className="flex flex-col gap-1 mb-3">
                     <div className="flex items-baseline gap-2">
                       <span className="text-4xl md:text-5xl font-bold text-navy-950">{offer.pricePromo} €</span>
-                      <span className="text-emerald-600 text-sm font-semibold tracking-wide uppercase">Prix de lancement</span>
+                      <span className="text-emerald-600 text-sm font-semibold tracking-wide">— prix de lancement</span>
                     </div>
-                    <div className="text-slate-500 text-sm">
-                      <span className="line-through">{offer.priceNormal} €</span>
-                      {offer.id === 'pack-visibilite-locale' ? ' selon le projet' : ''}
+                    <div className="text-slate-500 text-sm mt-1">
+                      Puis {offer.priceNormal} €{offer.id === 'pack-visibilite-locale' ? ' selon le projet' : ''}
                     </div>
                   </div>
                   <p className="text-xs text-slate-400 mt-2">

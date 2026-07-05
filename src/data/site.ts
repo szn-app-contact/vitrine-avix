@@ -3,7 +3,7 @@ import { SiteConfig } from '@/types';
 export const siteConfig: SiteConfig = {
   name: 'AVIX',
   description:
-    'AVIX accompagne les commerces locaux en Vendée, Loire-Atlantique, Charente-Maritime et Maine-et-Loire, avec une priorité autour de la Vendée. Nous vous aidons à améliorer votre visibilité avec un site moderne, une fiche Google optimisée et des supports NFC pour les avis clients.',
+    'Basé en Vendée, AVIX accompagne les commerces locaux en Vendée, Loire-Atlantique, Charente-Maritime et Maine-et-Loire. Nous vous aidons à améliorer votre visibilité avec un site moderne, une fiche Google optimisée et des supports NFC pour les avis clients.',
   tagline: 'Sites vitrines, avis Google et visibilité locale.',
   url: 'https://avix-digital.com',
   email: 'avix.digital.contact@gmail.com',

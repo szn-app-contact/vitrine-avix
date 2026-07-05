@@ -88,8 +88,7 @@ export default function ContactPage() {
                       <div className="text-xs font-semibold text-slate-500 mb-1 uppercase tracking-wide">Zone d&apos;intervention</div>
                       <div className="text-sm text-slate-700">
                         Vendée, Loire-Atlantique,<br />
-                        Charente-Maritime, Maine-et-Loire<br />
-                        <span className="text-slate-500 italic">(Priorité Vendée)</span>
+                        Charente-Maritime, Maine-et-Loire
                       </div>
                     </div>
                   </div>

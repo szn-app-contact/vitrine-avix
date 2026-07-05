@@ -34,7 +34,7 @@ export default function Footer() {
             ))}
           </div>
           <p className="text-xs text-slate-500 mt-6">
-            Interventions principalement dans ces zones. Contactez-nous pour tout autre secteur.
+            Zones d'intervention : Vendée 85, Loire-Atlantique 44, Charente-Maritime 17, Maine-et-Loire 49.
           </p>
         </div>
       </div>
@@ -46,7 +46,7 @@ export default function Footer() {
           <div className="sm:col-span-2 lg:col-span-1">
             <Logo variant="white" className="mb-5" />
             <p className="text-sm text-slate-400 leading-relaxed max-w-xs mb-6">
-              AVIX accompagne les commerces locaux en Vendée, Loire-Atlantique, Charente-Maritime et Maine-et-Loire, avec une priorité autour de la Vendée.
+              Basé en Vendée, AVIX accompagne les commerces locaux en Vendée, Loire-Atlantique, Charente-Maritime et Maine-et-Loire.
             </p>
             <div className="flex flex-col gap-3">
               <a

@@ -25,7 +25,7 @@ export const metadata: Metadata = {
   },
 
   description:
-    "AVIX accompagne les commerces locaux en Vendée, Loire-Atlantique, Charente-Maritime et Maine-et-Loire, avec une priorité autour de la Vendée. Nous créons des sites vitrines professionnels et optimisons votre visibilité locale. Devis gratuit.",
+    "Basé en Vendée, AVIX accompagne les commerces locaux en Vendée, Loire-Atlantique, Charente-Maritime et Maine-et-Loire. Nous créons des sites vitrines professionnels et optimisons votre visibilité locale. Devis gratuit.",
 
   keywords: [
     // Services

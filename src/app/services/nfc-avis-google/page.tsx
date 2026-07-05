@@ -234,17 +234,17 @@ export default function NfcAvisGooglePage() {
                 </div>
                 <div className="flex items-baseline justify-center gap-2 mb-2">
                   <span className="text-5xl font-bold text-slate-900">149 €</span>
-                  <span className="text-emerald-600 text-sm font-semibold tracking-wide uppercase">Prix de lancement</span>
+                  <span className="text-emerald-600 text-sm font-semibold tracking-wide">— prix de lancement</span>
                 </div>
                 <div className="text-slate-500 text-sm mb-6">
-                  <span className="line-through">199 €</span>
+                  Puis 199 €
                 </div>
                 <Button href="/contact?projet=pack-avis-express" className="w-full justify-center mb-3">
                   Demander ce pack
                   <ArrowRight size={18} />
                 </Button>
                 <p className="text-xs text-slate-400">
-                  Paiement unique — hors frais éventuels d&apos;hébergement
+                  Paiement unique — hors frais éventuels de nom de domaine et d'hébergement, réglés directement par le client.
                 </p>
               </div>
             </div>
